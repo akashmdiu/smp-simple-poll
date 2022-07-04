@@ -8,6 +8,7 @@ Author URI: https://www.bprogrammer.net
 Version: 1.0.0
 Tags: simple poll, voting poll, survay, poll by shortcode, create poll.
 Text Domain: simple-poll
+Domain Path: /languages/
 Licence: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -21,6 +22,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 if (!defined('ABSPATH')) {
 	exit;
 }
+
+function smp_load_textdomain(){
+    load_plugin_textdomain( 'simple-poll', false, dirname(__FILE__)."/languages" );
+}
+add_action( 'plugins_loaded', 'smp_load_textdomain'); 
 
 /**
  * Block Initializer.
