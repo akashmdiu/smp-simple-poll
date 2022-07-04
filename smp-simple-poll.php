@@ -27,7 +27,7 @@ if (!function_exists('simple_poll_active')) {
 	function simple_poll_active()
 	{ }
 } else {
-	$plugin = dirname(__FILE__) . '/simple-polls.php';
+	$plugin = dirname(__FILE__) . '/smp-simple-poll.php';
 	deactivate_plugins($plugin);
 
 	wp_die('<div class="plugins"><h2>Simple Poll 1.0.0 Plugin Activation Error!</h2><p style="background: #ffef80;padding: 10px 15px;border: 1px solid #ffc680;">We Found that you are using Our Plugin\'s Another Version, Please Deactivate That Version & than try to re-activate it. Don\'t worry free plugins data will be automatically migrate into this version. Thanks!</p></div>', 'Plugin Activation Error', array('response' => 200, 'back_link' => true));
