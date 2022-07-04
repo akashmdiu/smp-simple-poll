@@ -9,9 +9,11 @@ License: GPLv2 or Later
 == Testetd on 6.0.0 ==
 This plugin is used and tested on latest wp version,
 
-== Change Log ==
+== Testetd on PHP 7.3 and 8.0.13 ==
+This plugin is used and tested on PHP version 7.3 and 8.0.13,
 
-= 1.0 =
+== Change Log ==
+= 1.0.0 =
 * Initial public release. 
-* Date: 5-Jul-2022
+* Date: 4-July-2022
 
