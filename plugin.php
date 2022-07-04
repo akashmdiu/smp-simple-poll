@@ -20,13 +20,39 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 // Exit if accessed directly.
 if (!defined('ABSPATH')) {
-	exit;
+    exit;
 }
 
-function smp_load_textdomain(){
-    load_plugin_textdomain( 'simple-poll', false, dirname(__FILE__)."/languages" );
+
+/********ACTIVATOR********/
+register_activation_hook(__FILE__, 'simple_poll_active');
+
+//Simple Poll Activation
+if (!function_exists('simple_poll_active')) {
+    function simple_poll_active()
+    { }
+} else {
+    $plugin = dirname(__FILE__) . '/smp-simple-poll.php.php';
+    deactivate_plugins($plugin);
+
+    wp_die('<div class="plugins"><h2>Simple Poll 1.0.0 Plugin Activation Error!</h2><p style="background: #ffef80;padding: 10px 15px;border: 1px solid #ffc680;">We Found that you are using Our Plugin\'s Another Version, Please Deactivate That Version & than try to re-activate it. Don\'t worry free plugins data will be automatically migrate into this version. Thanks!</p></div>', 'Plugin Activation Error', array('response' => 200, 'back_link' => true));
 }
-add_action( 'plugins_loaded', 'smp_load_textdomain'); 
+
+
+/*********DEACTIVATOR*********/
+register_activation_hook(__FILE__, 'simple_poll_deactive');
+
+//Simple Poll Deactivation
+if (!function_exists('simple_poll_deactive')) {
+    function simple_poll_deactive()
+    { }
+}
+
+function smp_load_textdomain()
+{
+    load_plugin_textdomain('simple-poll', false, dirname(__FILE__) . "/languages");
+}
+add_action('plugins_loaded', 'smp_load_textdomain');
 
 /**
  * Block Initializer.
