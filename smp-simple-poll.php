@@ -1,56 +1,11 @@
 <?php
-/*
-Plugin Name: Simple Poll
-Plugin Uri: https://github.com/akashmdiu/simple-poll
-Description: The Simple Poll is a voting poll system into your post, pages and everywhere in website by just a shortcode. Add poll system to your post by placing shortcode.
-Author: Akash Mia
-Author URI: https://www.bprogrammer.net
-Version: 1.0.0
-Tags: simple poll, voting poll, survay, poll by shortcode, create poll.
-Text Domain: simple-poll
-Licence: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
-
-/*###############################################################
-    Simple Poll 1.0.0 A simple poll system for WordPress
-##############################################################*/
-
-require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-
-
-/********ACTIVATOR********/
-register_activation_hook(__FILE__, 'simple_poll_active');
-
-//Simple Poll Activation
-if (!function_exists('simple_poll_active')) {
-	function simple_poll_active()
-	{ }
-} else {
-	$plugin = dirname(__FILE__) . '/smp-simple-poll.php';
-	deactivate_plugins($plugin);
-
-	wp_die('<div class="plugins"><h2>Simple Poll 1.0.0 Plugin Activation Error!</h2><p style="background: #ffef80;padding: 10px 15px;border: 1px solid #ffc680;">We Found that you are using Our Plugin\'s Another Version, Please Deactivate That Version & than try to re-activate it. Don\'t worry free plugins data will be automatically migrate into this version. Thanks!</p></div>', 'Plugin Activation Error', array('response' => 200, 'back_link' => true));
-}
-
-
-/*********DEACTIVATOR*********/
-register_activation_hook(__FILE__, 'simple_poll_deactive');
-
-//Simple Poll Deactivation
-if (!function_exists('simple_poll_deactive')) {
-	function simple_poll_deactive()
-	{ }
-}
-
-
 if (!function_exists('smp_plugin_conf')) {
 	//Global File Attach
 	function smp_plugin_conf()
 	{
 		if (!isset($_SESSION)) {
-			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 365);
-			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 365);
+			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
+			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
 			// if ( !session_id() ) {
 			// 	session_start( [
 			// 		'read_and_close' => true,
@@ -60,6 +15,15 @@ if (!function_exists('smp_plugin_conf')) {
 		}
 	}
 	add_action('init', 'smp_plugin_conf');
+}
+
+if(!function_exists('is_public')){
+	function is_public($smp_display_poll_result){
+		if($smp_display_poll_result === 'public'){
+			return true;
+		}
+		return false;
+	}
 }
 
 
@@ -89,7 +53,7 @@ if (!function_exists('smp_simple_poll')) {
 			'label'               => __('Simple Poll', 'simple-poll'),
 			'description'         => __('Simple Poll Description', 'simple-poll'),
 			'labels'              => $labels,
-			'supports'            => array('title', 'thumbnail', 'revisions'),
+			'supports'            => array('title', 'revisions'),
 			'show_in_rest' 		  => true,
 			'hierarchical'        => true,
 			'public'              => true,
@@ -114,6 +78,8 @@ if (!function_exists('smp_simple_poll')) {
 	add_action('init', 'smp_simple_poll', 0);
 }
 
+
+//Remove menu item for on Administrator
 function smp_remove_menu_items() {
     if( !current_user_can( 'administrator' ) ):
         remove_menu_page( 'edit.php?post_type=smp_poll' );
@@ -122,23 +88,7 @@ function smp_remove_menu_items() {
 add_action( 'admin_menu', 'smp_remove_menu_items' );
 
 
-//Add Simple Poll Admin Scripts
-if (!function_exists('smp_js_register')) {
 
-	add_action('admin_enqueue_scripts', 'smp_js_register', 100);
-	function smp_js_register()
-	{
-		// wp_enqueue_script('media-upload');
-		// wp_enqueue_style('wp-color-picker');
-		// wp_enqueue_script('thickbox');
-		// wp_register_script('smp_js', plugins_url('/assets/js/smpv3.js', __FILE__), array('jquery', 'media-upload', 'wp-color-picker', 'thickbox'));
-
-		// wp_enqueue_script('smp_js');
-
-		// wp_register_script('smp_builder', plugins_url('/assets/js/smp_contact_builderv3.js', __FILE__), array('jquery', 'thickbox'));
-		// wp_enqueue_script('smp_builder');
-	}
-}
 
 //Add Simple Poll Admin Style
 if (!function_exists('smp_css_register')) {
@@ -175,12 +125,6 @@ if (!function_exists('smp_enqueue_script')) {
 	}
 }
 
-//Add SMP Block Script
-function smp_blcok_script_register()
-{
-	wp_enqueue_script('smp-block', plugins_url('/assets/js/smp-block.js', __FILE__), array('wp-blocks', 'wp-i18n'), true);
-}
-add_action('enqueue_block_editor_assets', 'smp_blcok_script_register');
 
 
 include_once('inc/backend/smp_poll_metaboxes.php');
@@ -210,8 +154,8 @@ if (!function_exists('ajax_smp_vote')) {
 	{
 
 		if (isset($_POST['action']) and $_POST['action'] == 'smp_vote') {
-			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 365);
-			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 365);
+			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
+			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
 			// if ( !session_id() ) {
 			// 	session_start( [
 			// 		'read_and_close' => true,
@@ -280,7 +224,8 @@ if (!function_exists('set_custom_edit_smp_columns')) {
 	add_filter('manage_smp_poll_posts_columns', 'set_custom_edit_smp_columns');
 	function set_custom_edit_smp_columns($columns)
 	{
-		$columns['total_option'] = __('Total Options', 'simple-poll');
+		// $columns['total_option'] = __('Total Options', 'simple-poll');
+		$columns['smp_poll_id'] = __('Poll ID', 'simple-poll');
 		$columns['poll_status'] = __('Poll Status', 'simple-poll');
 		$columns['shortcode'] = __('Shortcode', 'simple-poll');
 		$columns['view_result'] = __('Result(Yes/No)', 'simple-poll');
@@ -288,10 +233,10 @@ if (!function_exists('set_custom_edit_smp_columns')) {
 	}
 }
 
-if (!function_exists('custom_smp_poll_column')) {
+if (!function_exists('smp_custom_poll_column')) {
 	// Add the data to the custom columns for the smp_poll post type:
-	add_action('manage_smp_poll_posts_custom_column', 'custom_smp_poll_column', 10, 2);
-	function custom_smp_poll_column($column, $post_id)
+	add_action('manage_smp_poll_posts_custom_column', 'smp_custom_poll_column', 10, 2);
+	function smp_custom_poll_column($column, $post_id)
 	{
 		switch ($column) {
 
@@ -305,13 +250,8 @@ if (!function_exists('custom_smp_poll_column')) {
 			case 'poll_status':
 				echo "<span style='text-transform:uppercase'>" . esc_attr(get_post_meta(get_the_id(), 'smp_poll_status', true)) . "</span>";
 				break;
-			case 'total_option':
-				if (get_post_meta($post_id, 'smp_poll_option', true)) {
-					$total_opt = sizeof(get_post_meta($post_id, 'smp_poll_option', true));
-				} else {
-					$total_opt = 0;
-				}
-				echo esc_html($total_opt);
+			case 'smp_poll_id':
+				echo "<span style='text-transform:uppercase'>" . esc_attr(get_the_id()) . "</span>";
 				break;
 
 			case 'view_result':
@@ -354,4 +294,5 @@ if (!function_exists('smp_check_for_unique_voting')) {
 		}
 	}
 }
+
 include_once('inc/backend/smp_widget.php');

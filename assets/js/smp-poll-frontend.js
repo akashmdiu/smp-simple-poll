@@ -6,14 +6,8 @@ jQuery(function () {
 		jQuery(this).siblings('[data-toggle]').removeClass('active');
 		return jQuery('.surveys').removeClass('grid list').addClass(toggle);
 	});
-
-	
-
-	
 });
 }.call(this));
-
-
 
 jQuery(".smp_survey-vote-button").on('click', function(e) {
 	console.log($(this));

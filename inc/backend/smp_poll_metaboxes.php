@@ -52,8 +52,6 @@ function smp_metabox_forms($post)
 
 	// update_post_meta( $post->ID, 'smp_display_poll_result', 'private' );
 
-
-
 	if (get_post_meta($post->ID, 'smp_poll_option', true)) {
 		$smp_poll_option = get_post_meta($post->ID, 'smp_poll_option', true);
 	}

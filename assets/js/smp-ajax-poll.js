@@ -49,9 +49,10 @@ jQuery(document).ready(function () {
 					jQuery(this).find('.smp_survey-vote-button').addClass('smp_scale_hide');
 				});
 
-				jQuery('.smp_survey-progress-fg').attr('style', 'width:' + Math.abs(100 - smp_json.total_vote_percentage) + '%');
+
+				jQuery('.smp_survey-progress-fg.public').attr('style', 'width:' + Math.abs(100 - smp_json.total_vote_percentage) + '%');
 				
-				jQuery(smp_item).find('.smp_survey-progress-fg').attr('style', 'width:' + smp_json.total_vote_percentage + '%');
+				jQuery(smp_item).find('.smp_survey-progress-fg.public').attr('style', 'width:' + smp_json.total_vote_percentage + '%');
 
 				
 				jQuery('.smp_survey-progress-label').text(Math.abs(100 - smp_json.total_vote_percentage) + '%');

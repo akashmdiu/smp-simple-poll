@@ -90,9 +90,10 @@ while (have_posts()) : the_post();
 
 									<div class="smp_survey-progress">
 										<div class="smp_survey-progress-bg">
-											<div class="smp_survey-progress-fg smp_orange_gradient" <?php if($smp_display_poll_result === 'public'): ?>style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
+											<div class="smp_survey-progress-fg smp_orange_gradient <?php if(is_public($smp_display_poll_result)) echo ' public'; ?>" <?php if(is_public($smp_display_poll_result)): ?> style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
 											</div>
-											<?php if($smp_display_poll_result === 'public'): ?>
+
+											<?php if(is_public($smp_display_poll_result)): ?>
 												<div class="smp_survey-progress-label">
 													<?php echo esc_html($smp_poll_vote_percentage); ?>%
 												</div>
