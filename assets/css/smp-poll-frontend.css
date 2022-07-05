@@ -7,7 +7,7 @@ main#main {
 
 .smp_container {
   position: relative;
-    max-width: 440px;
+    max-width: 440px!important;
     margin: auto;
     padding: 34px;
     border-radius: 15px;
@@ -39,11 +39,7 @@ li.smp_poll-end-time.text-align-center p{
   font-family: sans-serif;
 }
 
-.smp_survey-item-inner {
-  display: flex;
-  width: 300px;
-  justify-content: space-between;
-}
+
 
 .smp_survey-item-inner {
   position: relative;
@@ -55,6 +51,18 @@ li.smp_poll-end-time.text-align-center p{
   border-radius: 30px;
   align-items: center;
   margin-bottom: 10px;
+  max-height: 60px;
+}
+.smp_survey-name h5 {
+  margin: 0!important;
+  font-size: 18px!important;
+}
+.smp_survey-total-vote h3 {
+  margin: 0 0 15px 0!important;
+}
+ul.smp_surveys li {
+  margin: 0;
+  padding: 0;
 }
 
 .smp_survey-item-action {
@@ -127,9 +135,7 @@ ul.smp_surveys {
   font-size: 20px;
   font-family: 'Open Sans';
   font-weight: 600;
-  margin-bottom: 12px;
-  margin-top: 0;
-  margin-bottom: 20px;
+  margin: 0 0 15px 0!important;
 }
 
 .smp_survey-total-vote h3, h3.smp_stage.smp_live.smp_active {

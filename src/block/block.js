@@ -89,16 +89,18 @@ registerBlockType('cgb/block-smp-poll', {
 
 		// console.log(props.attributes.posts);
 		return (
-			<select onChange={updatePost} value={props.attributes.selectedPost}>
-				{props.attributes.posts.map(post => {
-					console.log(post.title.rendered);
-					return (
-						<option value={post.id} key={post.id}>
-							{post.title.rendered}
-						</option>
-					)
-				})}
-			</select>
+			<form>
+				<h3 className="poll-heading" htmlFor="select-poll">Select a Poll : </h3>
+				<select id="select-poll" onChange={updatePost} value={props.attributes.selectedPost}>
+					{props.attributes.posts.map(post => {
+						return (
+							<option value={post.id} key={post.id}>
+								{post.title.rendered}
+							</option>
+						)
+					})}
+				</select>
+			</form>
 
 		);
 	},
