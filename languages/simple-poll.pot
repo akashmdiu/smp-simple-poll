@@ -1,0 +1,173 @@
+# Copyright (C) 2022 Simple Poll
+# This file is distributed under the same license as the Simple Poll package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple Poll 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/smp-simple-poll-master\n"
+"POT-Creation-Date: 2022-07-05 07:41:48+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: inc/backend/smp_poll_metaboxes.php:11
+msgid "Add Poll Options"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:70 smp-simple-poll.php:229
+msgid "Poll Status"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:80
+msgid "Display Poll Result"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:89
+msgid "Poll End Date"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:114
+msgid "Option Name"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:120
+msgid "Get Vote"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:136
+msgid "Option 1"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:149
+msgid "Option 2"
+msgstr ""
+
+#: inc/backend/smp_widget.php:22 smp-simple-poll.php:53
+msgid "Simple Poll"
+msgstr ""
+
+#: inc/backend/smp_widget.php:25
+msgid "Add Poll via widget in sidebar"
+msgstr ""
+
+#: inc/backend/smp_widget.php:54
+msgid "Select A Poll:"
+msgstr ""
+
+#: inc/backend/smp_widget.php:56
+msgid "Choose Poll"
+msgstr ""
+
+#: inc/frontend/smp_poll-template.php:31 inc/frontend/smp_poll.php:51
+msgid "Live"
+msgstr ""
+
+#: inc/frontend/smp_poll-template.php:32 inc/frontend/smp_poll.php:52
+msgid "Ended"
+msgstr ""
+
+#: inc/frontend/smp_poll-template.php:118 inc/frontend/smp_poll.php:138
+msgid "<p class=\"smp_short_code\">This Poll is not yet ready contact site administrator</p>"
+msgstr ""
+
+#: inc/frontend/smp_poll-template.php:130 inc/frontend/smp_poll.php:150
+msgid "You already partcipeted."
+msgstr ""
+
+#: smp-simple-poll.php:36 smp-simple-poll.php:37
+msgctxt "simple-poll"
+msgid "Simple Poll"
+msgstr ""
+
+#: smp-simple-poll.php:38 smp-simple-poll.php:39
+msgid "Simple Polls"
+msgstr ""
+
+#: smp-simple-poll.php:40
+msgid "Parent Poll:"
+msgstr ""
+
+#: smp-simple-poll.php:41
+msgid "All Polls"
+msgstr ""
+
+#: smp-simple-poll.php:42
+msgid "Add New Poll"
+msgstr ""
+
+#: smp-simple-poll.php:43
+msgid "Add New"
+msgstr ""
+
+#: smp-simple-poll.php:44
+msgid "New Poll"
+msgstr ""
+
+#: smp-simple-poll.php:45
+msgid "Edit Poll"
+msgstr ""
+
+#: smp-simple-poll.php:46
+msgid "Update Poll"
+msgstr ""
+
+#: smp-simple-poll.php:47
+msgid "View Poll"
+msgstr ""
+
+#: smp-simple-poll.php:48
+msgid "Search Poll"
+msgstr ""
+
+#: smp-simple-poll.php:49
+msgid "Not found"
+msgstr ""
+
+#: smp-simple-poll.php:50
+msgid "Not found in Trash"
+msgstr ""
+
+#: smp-simple-poll.php:54
+msgid "Simple Poll Description"
+msgstr ""
+
+#: smp-simple-poll.php:228
+msgid "Poll ID"
+msgstr ""
+
+#: smp-simple-poll.php:230
+msgid "Shortcode"
+msgstr ""
+
+#: smp-simple-poll.php:231
+msgid "Result(Yes/No)"
+msgstr ""
+
+#: smp-simple-poll.php:248
+msgid "Unable to get shortcode"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Simple Poll"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/akashmdiu/smp-simple-poll"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "The Simple Poll is a voting poll system into your post, pages and everywhere in website by just a shortcode. Add poll system to your post by placing shortcode."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Akash Mia"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.bprogrammer.net"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "simple poll, voting poll, survay, poll by shortcode, create poll."
+msgstr ""
