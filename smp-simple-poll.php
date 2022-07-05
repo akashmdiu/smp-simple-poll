@@ -261,12 +261,16 @@ if (!function_exists('smp_custom_poll_column')) {
 				
 				$count_yes = 0;
 				$count_no = 0;
-				if (get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true)) {
-					$count_yes = get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true);
-				}
 
-				if (get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true)) {
-					$count_no = get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true);
+				if(!empty($option_id[0])){
+					if (get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true)) {
+						$count_yes = get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true);
+					}
+				}
+				if(!empty($option_id[1])){
+					if (get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true)) {
+						$count_no = get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true);
+					}
 				}
 				echo esc_html($count_yes.'/'.$count_no);
 				break;
