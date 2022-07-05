@@ -40,7 +40,7 @@ if (!function_exists('smp_poll_active')) {
 
 
 /*********DEACTIVATOR*********/
-register_activation_hook(__FILE__, 'smp_poll_deactive');
+register_deactivation_hook(__FILE__, 'smp_poll_deactive');
 
 //Simple Poll Deactivation
 if (!function_exists('smp_poll_deactive')) {
