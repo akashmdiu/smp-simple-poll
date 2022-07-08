@@ -32,6 +32,8 @@ jQuery(document).ready(function () {
 			});
 
 			var smp_btn = jQuery(this);
+			jQuery('.smp_survey-vote-button').closest('.smp_container').removeClass('activated');
+			smp_btn.closest('.smp_container').addClass('activated');
 			
 			var data = {
 				'action': 'smp_vote',
@@ -58,7 +60,7 @@ jQuery(document).ready(function () {
 				jQuery('.smp_survey-progress-label').text(Math.abs(100 - smp_json.total_vote_percentage) + '%');
 				jQuery(smp_item).find('.smp_survey-progress-label').text(smp_json.total_vote_percentage + '%');
 
-				jQuery('.smp_user-partcipeted').text('Thank you for participating.');
+				jQuery('.activated .smp_user-partcipeted').text('Thank you for participating.');
 				jQuery('.smp_survey-total-vote h3 span').text(smp_json.total_vote_count);
 
 			});
