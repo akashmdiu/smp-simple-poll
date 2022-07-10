@@ -17,7 +17,6 @@ main#main {
   padding: 35px;
   border-radius: 15px;
   background-color: #f7f3fc;
-  transform: scale(0.8);
 }
 
 .smp_inner {
@@ -146,6 +145,7 @@ ul.smp_surveys {
   font-family: 'Open Sans';
   font-weight: 600;
   margin: 0 0 15px 0 !important;
+  line-height: 1.5;
 }
 .smp_survey-total-vote {
   margin-bottom: 15px;
