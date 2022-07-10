@@ -45,11 +45,10 @@ function smp_add_shortcode($atts, $content = null)
 				$name_option = ' smp_option-name';
 			} 
 			?>
-			<div class="smp_container text-align-center">
-		
+			<div class="smp_container text-align-center">	
 				<div class="smp_survey-stage">
-						<h3 class="smp_stage smp_live smp_active" <?php if ($smp_poll_status !== 'live') echo 'style="display:none;"'; ?>><?php echo esc_html__('Live', 'simple-poll'); ?></h3>
-						<h3 class="smp_stage smp_ended smp_active" <?php if ($smp_poll_status !== 'end') echo 'style="display:none;"'; ?>><?php echo esc_html__('Ended', 'simple-poll'); ?></h3>
+						<span class="smp_stage smp_live smp_active" <?php if ($smp_poll_status !== 'live') echo 'style="display:none;"'; ?>><?php echo esc_html__('Live', 'simple-poll'); ?></span>
+						<span class="smp_stage smp_ended smp_active" <?php if ($smp_poll_status !== 'end') echo 'style="display:none;"'; ?>><?php echo esc_html__('Ended', 'simple-poll'); ?></span>
 				</div>
 				<div class="smp_title">
 
@@ -59,18 +58,18 @@ function smp_add_shortcode($atts, $content = null)
 
 				<?php if($smp_display_poll_result === 'public'): ?>
 					<div class="smp_survey-total-vote">
-						<h3> <?php echo wp_kses_post('Total Vote: ' .'<span>'. $smp_poll_vote_total_count.'</span>'); ?></h3>
+						<span> <?php echo wp_kses_post('Total Vote: ' .'<span>'. $smp_poll_vote_total_count.'</span>'); ?></span>
 					</div>
 				<?php endif; ?>
 				</div>
 				<div class="smp_inner">
 
-					<ul class="smp_surveys">
+					<div class="smp_surveys">
 
 						<?php if ($smp_poll_status !== 'end'): ?>
-							<li class="smp_poll-end-time text-align-center">
-								<p><?php echo esc_html__('Will End : ' . date("M d, Y", strtotime($smp_poll_end_date)), 'simple-poll'); ?></p>
-							</li>
+							<div class="smp_poll-end-time text-align-center">
+								<span><?php echo esc_html__('Will End : ' . date("M d, Y", strtotime($smp_poll_end_date)), 'simple-poll'); ?></span>
+							</div>
 						<?php endif; ?>
 
 						<?php
@@ -89,7 +88,7 @@ function smp_add_shortcode($atts, $content = null)
 									}
 									$smp_poll_vote_percentage = round( (float) $smp_poll_vote_percentage);
 									?>
-								<li class="smp_survey-item">
+								<div class="smp_survey-item">
 
 									<div class="smp_survey-item-inner smp_card_front">
 										<div class="smp_survey-item-action<?php if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[$i])) echo ' smp_survey-item-action-disabled'; ?>">
@@ -101,7 +100,7 @@ function smp_add_shortcode($atts, $content = null)
 											</form>
 
 											<div class="smp_survey-name">
-												<h5><?php echo esc_html($smp_option_name); ?></h5>
+												<span><?php echo esc_html($smp_option_name); ?></span>
 											</div>
 										</div>
 
@@ -125,12 +124,12 @@ function smp_add_shortcode($atts, $content = null)
 
 
 									</div>
-								</li>
+								</div>
 
-						<?php
+							<?php
 									$i++;
 								endforeach;
-								echo '</ul> <div style="clear:both;"></div>';
+								echo '</div> <div style="clear:both;"></div>';
 							} else {
 								if (current_user_can('administrator')) {
 									_e('<p class="smp_short_code">Please add some questions or may be you missed the option field.</p><br><a href="' . get_edit_post_link(get_the_id()) . '" class="smp_survey-notfound-button" style="width:auto;max-width:100%;">Edit This Poll</a>', 'simple-poll');
@@ -141,17 +140,15 @@ function smp_add_shortcode($atts, $content = null)
 
 				</div>
 
-
-
 				<div class="smp_user-partcipeted">
 					<?php if ($smp_option_names) :
-							foreach ($smp_option_names as $smp_option_name) :
-								if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])) : ?>
+						foreach ($smp_option_names as $smp_option_name) :
+							if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])) : ?>
 								<p> <?php echo esc_html__('You already partcipeted.', 'simple-poll'); ?></p>
-					<?php endif;
-								break;
-							endforeach;
-						endif; ?>
+							<?php endif;
+							break;
+						endforeach;
+					endif; ?>
 				</div>
 			</div>
 		<?php endwhile;
