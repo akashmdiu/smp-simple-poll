@@ -109,7 +109,7 @@ if (!function_exists('smp_enqueue_style')) {
 	add_action('wp_enqueue_scripts', 'smp_enqueue_style');
 	function smp_enqueue_style()
 	{
-		wp_enqueue_style('smp-poll-frontend', plugins_url('/assets/css/smp-poll-frontend.css', __FILE__), false);
+		wp_enqueue_style('smp-poll-frontend', plugins_url('/assets/css/smp-poll-frontend.css', __FILE__), false, rand(23344, 43435));
 	}
 }
 
