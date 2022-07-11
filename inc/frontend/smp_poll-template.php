@@ -63,9 +63,10 @@ while (have_posts()) : the_post();
 								$smp_poll_vote_percentage = 0;
 							} else {
 								if($smp_poll_vote_total_count > 0){
-									$smp_poll_vote_percentage = number_format( $smp_poll_vote_count * 100 / $smp_poll_vote_total_count, 2);
+									$smp_poll_vote_percentage =(float) $smp_poll_vote_count * 100 / $smp_poll_vote_total_count;
 								}
 							}
+							$smp_poll_vote_percentage = number_format($smp_poll_vote_percentage, 2);
 							
 							?>
 						<div class="smp_survey-item <?php if(is_public($smp_display_poll_result)) {echo 'public'; }else{echo 'private'; } ?>">
