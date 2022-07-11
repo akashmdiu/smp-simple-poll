@@ -25,8 +25,7 @@ while (have_posts()) : the_post();
 		} 
 
 	?>
-	<div class="smp_container text-align-center">
-		
+	<div class="smp_container text-align-center">	
 		<div class="smp_survey-stage">
 				<span class="smp_stage smp_live smp_active" <?php if ($smp_poll_status !== 'live') echo 'style="display:none;"'; ?>><?php echo esc_html__('Live', 'simple-poll'); ?></span>
 				<span class="smp_stage smp_ended smp_active" <?php if ($smp_poll_status !== 'end') echo 'style="display:none;"'; ?>><?php echo esc_html__('Ended', 'simple-poll'); ?></span>
@@ -64,12 +63,12 @@ while (have_posts()) : the_post();
 								$smp_poll_vote_percentage = 0;
 							} else {
 								if($smp_poll_vote_total_count > 0){
-									$smp_poll_vote_percentage = round( (float) $smp_poll_vote_count * 100 / $smp_poll_vote_total_count);
+									$smp_poll_vote_percentage = number_format( $smp_poll_vote_count * 100 / $smp_poll_vote_total_count, 2);
 								}
 							}
-							$smp_poll_vote_percentage = round( (float) $smp_poll_vote_percentage);
+							
 							?>
-						<div class="smp_survey-item">
+						<div class="smp_survey-item <?php if(is_public($smp_display_poll_result)) {echo 'public'; }else{echo 'private'; } ?>">
 
 							<div class="smp_survey-item-inner smp_card_front">
 								<div class="smp_survey-item-action<?php if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[$i])) echo ' smp_survey-item-action-disabled'; ?>">
@@ -90,7 +89,7 @@ while (have_posts()) : the_post();
 
 									<div class="smp_survey-progress">
 										<div class="smp_survey-progress-bg">
-											<div class="smp_survey-progress-fg smp_orange_gradient <?php if(is_public($smp_display_poll_result)) echo ' public'; ?>" <?php if(is_public($smp_display_poll_result)): ?> style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
+											<div class="smp_survey-progress-fg smp_orange_gradient" <?php if(is_public($smp_display_poll_result)): ?> style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
 											</div>
 
 											<?php if(is_public($smp_display_poll_result)): ?>

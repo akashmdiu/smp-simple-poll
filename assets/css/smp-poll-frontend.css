@@ -53,6 +53,7 @@ main#main {
   align-items: center;
   margin-bottom: 10px;
   max-height: 45px;
+  overflow: hidden;
 }
 
 .smp_survey-name h5 {

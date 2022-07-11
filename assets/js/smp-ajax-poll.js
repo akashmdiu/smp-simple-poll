@@ -45,25 +45,33 @@ jQuery(document).ready(function () {
 			jQuery.post(smp_ajax_obj.ajax_url, data, function (response) {
 
 				var smp_json = jQuery.parseJSON(response);
-				console.log(smp_json);
+				console.log(response);
+
+				let vote_percentage = ((100 * smp_json.total_opt_vote_count) / smp_json.total_vote_count).toFixed(2); 
 
 				jQuery(smp_item).parent().find('.smp_survey-item').each(function () {
 					jQuery(this).find('.smp_survey-vote-button').addClass('smp_scale_hide');
 				});
 
 
-				jQuery('.smp_survey-progress-fg.public').attr('style', 'width:' + Math.abs(100 - smp_json.total_vote_percentage) + '%');
-				
-				jQuery(smp_item).find('.smp_survey-progress-fg.public').attr('style', 'width:' + smp_json.total_vote_percentage + '%');
+				if(smp_item.hasClass('public')){
+					jQuery('.public .smp_survey-progress-fg').attr('style', 'width:' + Math.abs(100 - vote_percentage) + '%');
+					
+					jQuery(smp_item).find('.smp_survey-progress-fg').attr('style', 'width:' + vote_percentage + '%');
+			
+					jQuery('.public .smp_survey-progress-label').text(Math.abs(100 - vote_percentage).toFixed(2) + '%');
+					
+					jQuery(smp_item).find('.smp_survey-progress-label').text(vote_percentage + '%');
 
+					jQuery('.smp_survey-total-vote span span').text(smp_json.total_vote_count);
+
+
+				}
 				
-				jQuery('.smp_survey-progress-label').text(Math.abs(100 - Math.round(smp_json.total_vote_percentage)) + '%');
-				
-				jQuery(smp_item).find('.smp_survey-progress-label').text(Math.round(smp_json.total_vote_percentage) + '%');
 
 				jQuery('.activated .smp_user-partcipeted').text('Thank you for participating.');
-				jQuery('.smp_survey-total-vote span span').text(smp_json.total_vote_count);
 
+  
 			});
 
 		});
