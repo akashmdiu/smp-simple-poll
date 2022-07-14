@@ -75,7 +75,7 @@ registerBlockType('cgb/block-smp-poll', {
 		}
 
 
-		function updatePost(e) {
+		function smp_poll_updatePost(e) {
 			props.setAttributes({
 				selectedPost: e.target.value,
 			})
@@ -91,7 +91,7 @@ registerBlockType('cgb/block-smp-poll', {
 		return (
 			<form>
 				<h3 className="poll-heading" htmlFor="select-poll">Select a Poll : </h3>
-				<select id="select-poll" onChange={updatePost} value={props.attributes.selectedPost}>
+				<select id="select-poll" onChange={smp_poll_updatePost} value={props.attributes.selectedPost}>
 					{props.attributes.posts.map(post => {
 						return (
 							<option value={post.id} key={post.id}>

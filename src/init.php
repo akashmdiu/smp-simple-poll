@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Blocks Initializer
  *
  * Enqueue CSS/JS of all the blocks.
  *
  * @since   1.0.0
- * @package CGB
+ * @package SMPP
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
@@ -28,33 +29,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 
-function smp_poll_cgb_block_assets() { // phpcs:ignore
+function smp_poll_cgb_block_assets()
+{ // phpcs:ignore
 	// Register block styles for both frontend + backend.
 	wp_register_style(
 		'smp_poll-cgb-style-css', // Handle.
-		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
-		is_admin() ? array( 'wp-editor' ) : null, // Dependency to include the CSS after it.
+		plugins_url('dist/blocks.style.build.css', dirname(__FILE__)), // Block style CSS.
+		is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
 		null // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
 
 	// Register block editor script for backend.
 	wp_register_script(
 		'smp_poll-cgb-block-js', // Handle.
-		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
+		plugins_url('/dist/blocks.build.js', dirname(__FILE__)), // Block.build.js: We register the block here. Built with Webpack.
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), // Dependencies, defined above.
 		null, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
 		true // Enqueue the script in the footer.
 	);
 
 	// wp_register_script( 'my-script' , 'path/to/the-script.js' );
-	wp_localize_script( 'smp_poll-cgb-block-js' , 'wpRestApi' , array( 'url' => get_rest_url() ) );
-	wp_enqueue_script( 'smp_poll-cgb-block-js' );
+	wp_localize_script('smp_poll-cgb-block-js', 'wpRestApi', array('url' => get_rest_url()));
+	wp_enqueue_script('smp_poll-cgb-block-js');
 
 	// Register block editor styles for backend.
 	wp_register_style(
 		'smp_poll-cgb-block-editor-css', // Handle.
-		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
-		array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+		plugins_url('dist/blocks.editor.build.css', dirname(__FILE__)), // Block editor CSS.
+		array('wp-edit-blocks'), // Dependency to include the CSS after it.
 		null // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
 	);
 
@@ -63,8 +65,8 @@ function smp_poll_cgb_block_assets() { // phpcs:ignore
 		'smp_poll-cgb-block-js',
 		'cgbGlobal', // Array containing dynamic data for a JS Global.
 		[
-			'pluginDirPath' => plugin_dir_path( __DIR__ ),
-			'pluginDirUrl'  => plugin_dir_url( __DIR__ ),
+			'pluginDirPath' => plugin_dir_path(__DIR__),
+			'pluginDirUrl'  => plugin_dir_url(__DIR__),
 			// Add more data here that you want to access from `cgbGlobal` object.
 		]
 	);
@@ -80,28 +82,27 @@ function smp_poll_cgb_block_assets() { // phpcs:ignore
 	 * @since 1.16.0
 	 */
 	register_block_type(
-		'cgb/block-smp-poll', array(
+		'cgb/block-smp-poll',
+		array(
 			// Enqueue blocks.style.build.css on both frontend & backend.
 			'style'         => 'smp_poll-cgb-style-css',
 			// Enqueue blocks.build.js in the editor only.
 			'editor_script' => 'smp_poll-cgb-block-js',
 			// Enqueue blocks.editor.build.css in the editor only.
 			'editor_style'  => 'smp_poll-cgb-block-editor-css',
-			'render_callback' => 'render_posts_block'
+			'render_callback' => 'smp_poll_render_posts_block'
 		)
 	);
 }
 
-function render_posts_block($attributes)
-{
-	// echo '<pre>';
-	// print_r ($attributes);
-	// echo '</pre>';
-	ob_start();
-		// echo do_shortcode('[SIMPLE_POLL id="'.$attributes['selectedPost'].']');
-		echo do_shortcode('[SIMPLE_POLL id="'.$attributes['selectedPost'].'"][/SIMPLE_POLL]');
-	return ob_get_clean();
+if (!function_exists('smp_poll_render_posts_block')) {
+	function smp_poll_render_posts_block($attributes)
+	{
+		ob_start();
+		echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($attributes['selectedPost']) . '"][/SIMPLE_POLL]');
+		return ob_get_clean();
+	}
 }
 
 // Hook: Block assets.
-add_action( 'init', 'smp_poll_cgb_block_assets' );
+add_action('init', 'smp_poll_cgb_block_assets');

@@ -1,4 +1,5 @@
 <?php
+get_header(); 
 
 if (!isset($_SESSION)) session_start();
 get_header();
@@ -20,15 +21,15 @@ while (have_posts()) : the_post();
 			$has_live = ' live';
 		}
 		$name_option = '';
-		if (!smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])){
+		if (!smp_poll_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])){
 			$name_option = ' smp_option-name';
 		} 
 
 	?>
-	<div class="smp_container text-align-center">	
+	<div class="smp_container text-align-center" id="smp-poll-<?php echo esc_attr(get_the_id()); ?>">	
 		<div class="smp_survey-stage">
-				<span class="smp_stage smp_live smp_active" <?php if ($smp_poll_status !== 'live') echo 'style="display:none;"'; ?>><?php echo esc_html__('Live', 'simple-poll'); ?></span>
-				<span class="smp_stage smp_ended smp_active" <?php if ($smp_poll_status !== 'end') echo 'style="display:none;"'; ?>><?php echo esc_html__('Ended', 'simple-poll'); ?></span>
+				<span class="smp_stage smp_live smp_active <?php if ($smp_poll_status !== 'live') echo esc_attr('hidden'); ?>"><?php echo esc_html__('Live', 'smp-simple-poll'); ?></span>
+				<span class="smp_stage smp_ended smp_active <?php if ($smp_poll_status !== 'end') echo esc_attr('hidden'); ?>"><?php echo esc_html__('Ended', 'smp-simple-poll'); ?></span>
 		</div>
 		<div class="smp_title">
 
@@ -48,13 +49,13 @@ while (have_posts()) : the_post();
 
 				<?php if ($smp_poll_status !== 'end'): ?>
 					<div class="smp_poll-end-time text-align-center">
-						<span><?php echo esc_html__('Will End : ' . date("M d, Y", strtotime($smp_poll_end_date)), 'simple-poll'); ?></span>
+						<span><?php echo esc_html__('Will End : ' . date("M d, Y", strtotime($smp_poll_end_date)), 'smp-simple-poll'); ?></span>
 					</div>
 				<?php endif; ?>
 
 				<?php
 					$i = 0;
-					if ($smp_option_names) {
+					if ($smp_option_names) :
 						foreach ($smp_option_names as $smp_option_name) :
 							$smp_poll_vote_count =  get_post_meta(get_the_id(), 'smp_vote_count_' . (float) $smp_poll_option_id[$i], true);
 
@@ -69,63 +70,55 @@ while (have_posts()) : the_post();
 							$smp_poll_vote_percentage = number_format($smp_poll_vote_percentage, 2);
 							
 							?>
-						<div class="smp_survey-item <?php if(is_public($smp_display_poll_result)) {echo 'public'; }else{echo 'private'; } ?>">
+							<div class="smp_survey-item <?php if(smp_poll_is_public($smp_display_poll_result)) {echo esc_attr('public'); }else{echo esc_attr('private'); } ?>">
+								<div class="smp_survey-item-inner smp_card_front">
+									<div class="smp_survey-item-action <?php if (smp_poll_check_for_unique_voting(get_the_id(), $smp_poll_option_id[$i])) echo esc_attr('smp_survey-item-action-disabled'); ?>">
+										<form action="" name="smp_survey-item-action-form" class="smp_survey-item-action-form">
+											<input type="hidden" name="smp_poll-id" class="smp_poll-id" value="<?php echo esc_attr(get_the_id()); ?>">
+											<input type="hidden" name="smp_survey-item-id" class="smp_survey-item-id" value="<?php echo esc_attr($smp_poll_option_id[$i]); ?>">
 
-							<div class="smp_survey-item-inner smp_card_front">
-								<div class="smp_survey-item-action<?php if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[$i])) echo ' smp_survey-item-action-disabled'; ?>">
-									<form action="" name="smp_survey-item-action-form" class="smp_survey-item-action-form">
-										<input type="hidden" name="smp_poll-id" class="smp_poll-id" value="<?php echo esc_attr(get_the_id()); ?>">
-										<input type="hidden" name="smp_survey-item-id" class="smp_survey-item-id" value="<?php echo esc_attr($smp_poll_option_id[$i]); ?>">
+											<input type="button" role="vote" name="smp_survey-vote-button" class="smp_survey-vote-button <?php echo esc_attr( $has_live ); echo esc_attr( $name_option); ?>" id="smp_option-id-<?php echo esc_attr($i) ?>">
+										</form>
 
-										<input type="button" role="vote" name="smp_survey-vote-button" class="smp_survey-vote-button <?php echo esc_attr( $has_live ); echo esc_attr( $name_option); ?>" id="smp_option-id-<?php echo esc_attr($i) ?>">
-									</form>
-
-									<div class="smp_survey-name">
-										<span><?php echo esc_html($smp_option_name); ?></span>
+										<div class="smp_survey-name">
+											<span><?php echo esc_html($smp_option_name); ?></span>
+										</div>
 									</div>
-								</div>
 
 
-								<div class="smp_pull-right">
+									<div class="smp_pull-right">
 
-									<div class="smp_survey-progress">
-										<div class="smp_survey-progress-bg">
-											<div class="smp_survey-progress-fg smp_orange_gradient" <?php if(is_public($smp_display_poll_result)): ?> style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
+										<div class="smp_survey-progress">
+											<div class="smp_survey-progress-bg">
+												<div class="smp_survey-progress-fg smp_orange_gradient" <?php if(smp_poll_is_public($smp_display_poll_result)): ?> style="width:<?php echo esc_attr($smp_poll_vote_percentage); ?>%;" <?php endif;?> >
+												</div>
+
+												<?php if(smp_poll_is_public($smp_display_poll_result)): ?>
+													<div class="smp_survey-progress-label">
+														<?php echo esc_html($smp_poll_vote_percentage); ?>%
+													</div>
+												<?php endif; ?>
 											</div>
 
-											<?php if(is_public($smp_display_poll_result)): ?>
-												<div class="smp_survey-progress-label">
-													<?php echo esc_html($smp_poll_vote_percentage); ?>%
-												</div>
-											<?php endif; ?>
 										</div>
-
 									</div>
+
+
 								</div>
-
-
 							</div>
-						</div>
 
-					<?php
-							$i++;
-						endforeach;
-						echo '</div> <div style="clear:both;"></div>';
-					} else {
-						if (current_user_can('administrator')) {
-							_e('<p class="smp_short_code">Please add some questions or may be you missed the option field.</p><br><a href="' . get_edit_post_link(get_the_id()) . '" class="smp_survey-notfound-button" style="width:auto;max-width:100%;">Edit This Poll</a>', 'simple-poll');
-						} else {
-							_e('<p class="smp_short_code">This Poll is not yet ready contact site administrator</p>', 'simple-poll');
-						}
-					} ?>
-
+						<?php $i++;
+						endforeach; ?>
+				<?php endif; ?>
+			</div> 
+			<div style="clear:both;"></div>
 		</div>
 
 		<div class="smp_user-partcipeted">
 			<?php if ($smp_option_names) :
 				foreach ($smp_option_names as $smp_option_name) :
-					if (smp_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])) : ?>
-						<p> <?php echo esc_html__('You already partcipeted.', 'simple-poll'); ?></p>
+					if (smp_poll_check_for_unique_voting(get_the_id(), $smp_poll_option_id[0])) : ?>
+						<p> <?php echo esc_html__('You already partcipeted.', 'smp-simple-poll'); ?></p>
 					<?php endif;
 					break;
 				endforeach;

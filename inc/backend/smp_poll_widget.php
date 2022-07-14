@@ -1,14 +1,14 @@
 <?php
 
 //Registering Widget
-function smp_register_widget()
+function smp_poll_register_widget()
 {
-	register_widget('smp_widget');
+	register_widget('smp_poll_widget');
 }
-add_action('widgets_init', 'smp_register_widget');
-add_action('widgets_init', 'smp_register_widget'); //wp-blocks
+add_action('widgets_init', 'smp_poll_register_widget');
+add_action('widgets_init', 'smp_poll_register_widget'); //wp-blocks
 // Creating the widget 
-class smp_widget extends WP_Widget
+class smp_poll_widget extends WP_Widget
 {
 
 	function __construct()
@@ -16,13 +16,13 @@ class smp_widget extends WP_Widget
 		parent::__construct(
 
 			// Base ID of your widget
-			'smp_widget',
+			'smp_poll_widget',
 
 			// Widget name will appear in UI
-			__('Simple Poll', 'simple-poll'),
+			__('Simple Poll', 'smp-simple-poll'),
 
 			// Widget description
-			array('description' => __('Add Poll via widget in sidebar', 'simple-poll'),)
+			array('description' => __('Add Poll via widget in sidebar', 'smp-simple-poll'),)
 		);
 	}
 
@@ -31,14 +31,14 @@ class smp_widget extends WP_Widget
 	public function widget($args, $instance)
 	{
 		$poll_id = $instance['poll_id'];
-		echo $args['before_widget'];
-
-		// This is where you run the code and display the output
-		echo '<div class="smp_widget">';
-		echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($poll_id) . '" use_in="widget"][/SIMPLE_POLL]');
-		echo '</div>';
-		echo $args['after_widget'];
-	}
+		echo wp_kses_post($args['before_widget']);
+		?>
+		<div class="smp_poll_widget">
+			<?php echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($poll_id) . '" use_in="widget"][/SIMPLE_POLL]'); ?>
+		</div>	
+	<?php
+		echo wp_kses_post($args['after_widget']);
+	 }
 
 	// Widget Backend 
 	public function form($instance)
@@ -51,9 +51,9 @@ class smp_widget extends WP_Widget
 		// Widget admin form
 		?>
 		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('poll_id')); ?>"><?php _e('Select A Poll:', 'simple-poll'); ?></label>
+			<label for="<?php echo esc_attr($this->get_field_id('poll_id')); ?>"><?php _e('Select A Poll:', 'smp-simple-poll'); ?></label>
 			<select class="widefat" id="<?php echo esc_attr($this->get_field_id('poll_id')); ?>" name="<?php echo esc_attr($this->get_field_name('poll_id')); ?>">
-				<option value="0"><?php echo esc_html__('Choose Poll', 'simple-poll'); ?></option>
+				<option value="0"><?php echo esc_html__('Choose Poll', 'smp-simple-poll'); ?></option>
 				<?php
 						// WP_Query arguments
 						$smp_backend_query_args = array(
@@ -73,7 +73,9 @@ class smp_widget extends WP_Widget
 						if ($smp_backend_query->have_posts()) {
 							while ($smp_backend_query->have_posts()) {
 								$smp_backend_query->the_post(); ?>
-						<option value="<?php echo esc_attr(get_the_id()); ?>" <?php if ($poll_id == get_the_id()) echo " selected"; ?>><?php echo esc_attr(the_title()); ?></option>
+						<option value="<?php echo esc_attr(get_the_id()); ?>" <?php if ($poll_id == get_the_id()) echo esc_attr(" selected"); ?>>
+							<?php the_title(); ?>
+						</option>
 				<?php }
 						}
 						?>

@@ -1,24 +1,19 @@
 <?php
-if (!function_exists('smp_plugin_conf')) {
+if (!function_exists('smp_poll_plugin_conf')) {
 	//Global File Attach
-	function smp_plugin_conf()
+	function smp_poll_plugin_conf()
 	{
 		if (!isset($_SESSION)) {
 			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
 			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
-			// if ( !session_id() ) {
-			// 	session_start( [
-			// 		'read_and_close' => true,
-			// 	] );
-			// }
 			@session_start();
 		}
 	}
-	add_action('init', 'smp_plugin_conf');
+	add_action('init', 'smp_poll_plugin_conf');
 }
 
-if(!function_exists('is_public')){
-	function is_public($smp_display_poll_result){
+if(!function_exists('smp_poll_is_public')){
+	function smp_poll_is_public($smp_display_poll_result){
 		if($smp_display_poll_result === 'public'){
 			return true;
 		}
@@ -27,31 +22,30 @@ if(!function_exists('is_public')){
 }
 
 
-
-if (!function_exists('smp_simple_poll')) {
-	function smp_simple_poll()
+if (!function_exists('smp_poll_simple_poll_cpt')) {
+	function smp_poll_simple_poll_cpt()
 	{
 
 		$labels = array(
-			'name'                => _x('Simple Poll', 'simple-poll'),
-			'singular_name'       => _x('Simple Poll',  'simple-poll'),
-			'menu_name'           => __('Simple Polls', 'simple-poll'),
-			'name_admin_bar'      => __('Simple Polls', 'simple-poll'),
-			'parent_item_colon'   => __('Parent Poll:', 'simple-poll'),
-			'all_items'           => __('All Polls', 'simple-poll'),
-			'add_new_item'        => __('Add New Poll', 'simple-poll'),
-			'add_new'             => __('Add New', 'simple-poll'),
-			'new_item'            => __('New Poll', 'simple-poll'),
-			'edit_item'           => __('Edit Poll', 'simple-poll'),
-			'update_item'         => __('Update Poll', 'simple-poll'),
-			'view_item'           => __('View Poll', 'simple-poll'),
-			'search_items'        => __('Search Poll', 'simple-poll'),
-			'not_found'           => __('Not found', 'simple-poll'),
-			'not_found_in_trash'  => __('Not found in Trash', 'simple-poll'),
+			'name'                => _x('Simple Poll', 'smp-simple-poll'),
+			'singular_name'       => _x('Simple Poll',  'smp-simple-poll'),
+			'menu_name'           => __('Simple Polls', 'smp-simple-poll'),
+			'name_admin_bar'      => __('Simple Polls', 'smp-simple-poll'),
+			'parent_item_colon'   => __('Parent Poll:', 'smp-simple-poll'),
+			'all_items'           => __('All Polls', 'smp-simple-poll'),
+			'add_new_item'        => __('Add New Poll', 'smp-simple-poll'),
+			'add_new'             => __('Add New', 'smp-simple-poll'),
+			'new_item'            => __('New Poll', 'smp-simple-poll'),
+			'edit_item'           => __('Edit Poll', 'smp-simple-poll'),
+			'update_item'         => __('Update Poll', 'smp-simple-poll'),
+			'view_item'           => __('View Poll', 'smp-simple-poll'),
+			'search_items'        => __('Search Poll', 'smp-simple-poll'),
+			'not_found'           => __('Not found', 'smp-simple-poll'),
+			'not_found_in_trash'  => __('Not found in Trash', 'smp-simple-poll'),
 		);
 		$args = array(
-			'label'               => __('Simple Poll', 'simple-poll'),
-			'description'         => __('Simple Poll Description', 'simple-poll'),
+			'label'               => __('Simple Poll', 'smp-simple-poll'),
+			'description'         => __('Simple Poll Description', 'smp-simple-poll'),
 			'labels'              => $labels,
 			'supports'            => array('title', 'revisions'),
 			'show_in_rest' 		  => true,
@@ -75,53 +69,55 @@ if (!function_exists('smp_simple_poll')) {
 	}
 
 	// Hook into the 'init' action
-	add_action('init', 'smp_simple_poll', 0);
+	add_action('init', 'smp_poll_simple_poll_cpt', 0);
 }
 
 
-//Remove menu item for on Administrator
-function smp_remove_menu_items() {
-    if( !current_user_can( 'administrator' ) ):
-        remove_menu_page( 'edit.php?post_type=smp_poll' );
-    endif;
+/**
+ * Remove menu item for on Administrator
+ */
+if(!function_exists('smp_poll_remove_menu_items')){
+	function smp_poll_remove_menu_items() {
+		if( !current_user_can( 'administrator' ) ):
+			remove_menu_page( 'edit.php?post_type=smp_poll' );
+		endif;
+	}
+	add_action( 'admin_menu', 'smp_poll_remove_menu_items' );
 }
-add_action( 'admin_menu', 'smp_remove_menu_items' );
 
-
-
-
-//Add Simple Poll Admin Style
-if (!function_exists('smp_css_register')) {
-
-	add_action('admin_enqueue_scripts', 'smp_css_register', 1);
-	function smp_css_register()
+/**
+ * Add Simple Poll Admin Style
+ */
+if (!function_exists('smp_poll_css_register')) {
+	add_action('admin_enqueue_scripts', 'smp_poll_css_register', 1);
+	function smp_poll_css_register()
 	{
 		wp_register_style('smp-poll-backend', plugins_url('/assets/css/smp-poll-backend.css', __FILE__));
-		wp_enqueue_style(array('thickbox', 'smp_css'));
+		wp_enqueue_style(array('smp-poll-backend'));
 	}
 }
 
+/**
+ * Add SMP Frontend Style
+ */
+if (!function_exists('smp_poll_enqueue_style')) {
 
-
-//Add SMP Frontend Style
-if (!function_exists('smp_enqueue_style')) {
-
-	add_action('wp_enqueue_scripts', 'smp_enqueue_style');
-	function smp_enqueue_style()
+	add_action('wp_enqueue_scripts', 'smp_poll_enqueue_style');
+	function smp_poll_enqueue_style()
 	{
 		wp_enqueue_style('smp-poll-frontend', plugins_url('/assets/css/smp-poll-frontend.css', __FILE__), false, rand(23344, 43435));
 	}
 }
 
 //Add SMP Frontend Script
-if (!function_exists('smp_enqueue_script')) {
-	add_action('wp_enqueue_scripts', 'smp_enqueue_script', 1);
-	function smp_enqueue_script()
+if (!function_exists('smp_poll_enqueue_script')) {
+	add_action('wp_enqueue_scripts', 'smp_poll_enqueue_script', 1);
+	function smp_poll_enqueue_script()
 	{
-		wp_enqueue_script('smp_ajax', plugins_url('/assets/js/smp-ajax-poll.js', __FILE__), array('jquery'));
+		wp_enqueue_script('smp-poll-ajax', plugins_url('/assets/js/smp-ajax-poll.js', __FILE__), array('jquery'), rand(23344, 43435));
 		
-		wp_localize_script('smp_ajax', 'smp_ajax_obj', array('ajax_url' => admin_url('admin-ajax.php')));
-		wp_enqueue_script('smp-poll-frontend', plugins_url('/assets/js/smp-poll-frontend.js', __FILE__), false);
+		wp_localize_script('smp-poll-ajax', 'smp_poll_ajax_obj', array('ajax_url' => admin_url('admin-ajax.php')));
+		wp_enqueue_script('smp-poll-frontend', plugins_url('/assets/js/smp-poll-frontend.js', __FILE__), false, rand(23344, 43435));
 	}
 }
 
@@ -145,22 +141,17 @@ if (!function_exists('get_smp_poll_template')) {
 	}
 }
 
-if (!function_exists('ajax_smp_vote')) {
+if (!function_exists('smp_poll_ajax_smp_vote')) {
 
-	add_action('wp_ajax_smp_vote', 'ajax_smp_vote');
-	add_action('wp_ajax_nopriv_smp_vote', 'ajax_smp_vote');
+	add_action('wp_ajax_smp_vote', 'smp_poll_ajax_smp_vote');
+	add_action('wp_ajax_nopriv_smp_vote', 'smp_poll_ajax_smp_vote');
 
-	function ajax_smp_vote()
+	function smp_poll_ajax_smp_vote()
 	{
 
 		if (isset($_POST['action']) and $_POST['action'] == 'smp_vote') {
 			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
 			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
-			// if ( !session_id() ) {
-			// 	session_start( [
-			// 		'read_and_close' => true,
-			// 	] );
-			// }
 			@session_start();
 
 
@@ -196,7 +187,7 @@ if (!function_exists('ajax_smp_vote')) {
 				$oldest_total_vote = get_post_meta($poll_id, 'smp_vote_total_count', true);
 			}
 
-			if (!smp_check_for_unique_voting($poll_id, $option_id)) {
+			if (!smp_poll_check_for_unique_voting($poll_id, $option_id)) {
 
 				$new_total_vote = intval($oldest_total_vote) + 1;
 				$new_vote = (int) $oldest_vote + 1;
@@ -219,39 +210,40 @@ if (!function_exists('ajax_smp_vote')) {
 	}
 }
 
-//Adding Columns to Simple Poll cpt
-if (!function_exists('set_custom_edit_smp_columns')) {
-	add_filter('manage_smp_poll_posts_columns', 'set_custom_edit_smp_columns');
-	function set_custom_edit_smp_columns($columns)
+/**
+ * Adding Columns to Simple Poll CPT
+ */
+if (!function_exists('smp_poll_set_custom_edit_columns')) {
+	add_filter('manage_smp_poll_posts_columns', 'smp_poll_set_custom_edit_columns');
+	function smp_poll_set_custom_edit_columns($columns)
 	{
-		// $columns['total_option'] = __('Total Options', 'simple-poll');
-		$columns['smp_poll_id'] = __('Poll ID', 'simple-poll');
-		$columns['poll_status'] = __('Poll Status', 'simple-poll');
-		$columns['shortcode'] = __('Shortcode', 'simple-poll');
-		$columns['view_result'] = __('Result(Yes/No)', 'simple-poll');
+		$columns['smp_poll_id'] = __('Poll ID', 'smp-simple-poll');
+		$columns['poll_status'] = __('Poll Status', 'smp-simple-poll');
+		$columns['shortcode'] = __('Shortcode', 'smp-simple-poll');
+		$columns['view_result'] = __('Result(Yes/No)', 'smp-simple-poll');
 		return $columns;
 	}
 }
 
-if (!function_exists('smp_custom_poll_column')) {
+if (!function_exists('smp_poll_custom_column')) {
 	// Add the data to the custom columns for the smp_poll post type:
-	add_action('manage_smp_poll_posts_custom_column', 'smp_custom_poll_column', 10, 2);
-	function smp_custom_poll_column($column, $post_id)
+	add_action('manage_smp_poll_posts_custom_column', 'smp_poll_custom_column', 10, 2);
+	function smp_poll_custom_column($column, $post_id)
 	{
 		switch ($column) {
 
 			case 'shortcode':
 				$code = '[SIMPLE_POLL id="' . $post_id . '"][/SIMPLE_POLL]';
 				if (is_string($code))
-					echo '<code>' . esc_html($code) . '</code>';
+					echo wp_kses_post('<code>' .$code. '</code>');
 				else
-					_e('Unable to get shortcode', 'simple-poll');
+					_e('Unable to get shortcode', 'smp-simple-poll');
 				break;
 			case 'poll_status':
-				echo "<span style='text-transform:uppercase'>" . esc_attr(get_post_meta(get_the_id(), 'smp_poll_status', true)) . "</span>";
+				echo wp_kses_post("<span style='text-transform:uppercase'>" .get_post_meta(get_the_id(), 'smp_poll_status', true). "</span>");
 				break;
 			case 'smp_poll_id':
-				echo "<span style='text-transform:uppercase'>" . esc_attr(get_the_id()) . "</span>";
+				echo wp_kses_post("<span style='text-transform:uppercase'>" . esc_attr(get_the_id()) . "</span>");
 				break;
 
 			case 'view_result':
@@ -279,9 +271,9 @@ if (!function_exists('smp_custom_poll_column')) {
 }
 
 
-if (!function_exists('smp_check_for_unique_voting')) {
+if (!function_exists('smp_poll_check_for_unique_voting')) {
 
-	function smp_check_for_unique_voting($poll_id, $option_id)
+	function smp_poll_check_for_unique_voting($poll_id, $option_id)
 	{
 
 		if (isset($_SESSION['smp_session_' . $poll_id])) {
@@ -299,4 +291,4 @@ if (!function_exists('smp_check_for_unique_voting')) {
 	}
 }
 
-include_once('inc/backend/smp_widget.php');
+include_once('inc/backend/smp_poll_widget.php');

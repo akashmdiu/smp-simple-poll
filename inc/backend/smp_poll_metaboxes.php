@@ -3,31 +3,31 @@
 /**
  * Adds a box to the main column on the Poll edit screens.
  */
-function smp_metaboxes()
+function smp_poll_metaboxes()
 {
 
 	add_meta_box(
-		'smp_',
-		__('Add Poll Options', 'simple-poll'),
-		'smp_metabox_forms',
+		'smp_poll_',
+		__('Add Poll Options', 'smp-simple-poll'),
+		'smp_poll_metabox_forms',
 		'smp_poll',
 		'normal',
 		'high'
 	);
 }
 
-add_action('add_meta_boxes', 'smp_metaboxes');
+add_action('add_meta_boxes', 'smp_poll_metaboxes');
 
 /**
  * Prints the box content.
  * 
  * @param WP_Post $post The object for the current post/page.
  */
-function smp_metabox_forms($post)
+function smp_poll_metabox_forms($post)
 {
 
 	// Add an nonce field so we can check for it later.
-	wp_nonce_field('smp__metabox_id', 'smp__metabox_id_nonce');
+	wp_nonce_field('smp_poll__metabox_id', 'smp_poll__metabox_id_nonce');
 
 	/*
 	 * Use get_post_meta() to retrieve an existing value
@@ -62,31 +62,31 @@ function smp_metabox_forms($post)
 	?>
 	<?php if (($post->post_type == 'smp_poll') && isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit') { ?>
 		<div class="smp_short_code">
-			<?php _e('Shortcode for this poll is : <code>[SIMPLE_POLL id="' . $post->ID . '"][/SIMPLE_POLL]</code> (Insert it anywhere in your post/page and show your poll)', 'simple-poll'); ?>
+			<?php _e('Shortcode for this poll is : <code>[SIMPLE_POLL id="' . $post->ID . '"][/SIMPLE_POLL]</code> (Insert it anywhere in your post/page and show your poll)', 'smp-simple-poll'); ?>
 		</div>
 	<?php } ?>
 	<table class="form-table smp_meta_table">
 		<tr>
-			<td><?php _e('Poll Status', 'simple-poll'); ?></td>
+			<td><?php _e('Poll Status', 'smp-simple-poll'); ?></td>
 			<td>
 				<select class="widefat" id="smp_poll_status" name="smp_poll_status" value="" required>
-					<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected', 'simple-poll'); ?>>Live</option>
-					<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected', 'simple-poll'); ?>>End </option>
+					<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected'); ?>> <?php echo esc_html__( 'Live', 'smp-simple-poll' ); ?></option>
+					<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected'); ?>><?php echo esc_html__( 'End', 'smp-simple-poll' ); ?> </option>
 				</select>
 			</td>
 
 		</tr>
 		<tr>
-			<td><?php _e('Display Poll Result', 'simple-poll'); ?></td>
+			<td><?php _e('Display Poll Result', 'smp-simple-poll'); ?></td>
 			<td>
 				<select class="widefat" id="smp_display_poll_result" name="smp_display_poll_result" value="" required>	
-					<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected', 'simple-poll'); ?>>Private </option>
-					<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected', 'simple-poll'); ?>>Public</option>
+					<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected'); ?>><?php echo esc_html__( 'Private', 'smp-simple-poll' ); ?> </option>
+					<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected'); ?>><?php echo esc_html__( 'Public', 'smp-simple-poll' ); ?></option>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<td><?php _e('Poll End Date', 'simple-poll'); ?></td>
+			<td><?php _e('Poll End Date', 'smp-simple-poll'); ?></td>
 			<td>
 				<input type="date" id="smp_end-date" name="smp_end_date" value="<?= $smp_poll_end_date; ?>" min="<?= date("Y-m-d") ?>">
 			</td>
@@ -111,13 +111,13 @@ function smp_metabox_forms($post)
 					<td>
 						<table class="form-table">
 							<tr>
-								<td><?php _e('Option Name', 'simple-poll'); ?></td>
+								<td><?php _e('Option Name', 'smp-simple-poll'); ?></td>
 								<td>
-									<input type="text" class="widefat" id="smp_poll_option" name="smp_poll_option[]" value="<?php echo esc_attr($smp_poll_opt, 'simple-poll'); ?>" required />
+									<input type="text" class="widefat" id="smp_poll_option" name="smp_poll_option[]" value="<?php echo esc_attr($smp_poll_opt); ?>" required />
 								</td>
 							</tr>
 							<tr>
-								<td><?php _e('Get Vote', 'simple-poll'); ?>
+								<td><?php _e('Get Vote', 'smp-simple-poll'); ?>
 								</td>
 								<td><input type="number" class="widefat" id="smp_indi_vote" name="smp_indi_vote[]" value="<?php echo esc_attr($smp_poll_vote_count); ?>" disabled="" />
 								</td>
@@ -133,10 +133,10 @@ function smp_metabox_forms($post)
 				<td>
 					<table class="form-table">
 						<tr>
-							<td><?php echo esc_html__('Option 1', 'simple-poll'); ?></td>
+							<td><?php echo esc_html__('Option 1', 'smp-simple-poll'); ?></td>
 							<td>
 								<input type="text" value="Yes" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
-								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo rand(947984929347923, 112984929347923); ?>" />
+								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
 							</td>
 						</tr>
 					</table>
@@ -146,10 +146,10 @@ function smp_metabox_forms($post)
 				<td>
 					<table class="form-table">
 						<tr>
-							<td><?php echo esc_html__('Option 2', 'simple-poll'); ?></td>
+							<td><?php echo esc_html__('Option 2', 'smp-simple-poll'); ?></td>
 							<td>
 								<input type="text" value="No" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
-								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo rand(947984929347923, 112984929347923); ?>" />
+								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
 							</td>
 						</tr>
 					</table>
@@ -175,7 +175,7 @@ function smp_metabox_forms($post)
  *
  * @param int $post_id The ID of the post being saved.
  */
-function smp_save_options($post_id)
+function smp_poll_save_options($post_id)
 {
 
 	/*
@@ -184,12 +184,12 @@ function smp_save_options($post_id)
 	 */
 
 	// Check if our nonce is set.
-	if (!isset($_POST['smp__metabox_id_nonce'])) {
+	if (!isset($_POST['smp_poll__metabox_id_nonce'])) {
 		return;
 	}
 
 	// Verify that the nonce is valid.
-	if (!wp_verify_nonce($_POST['smp__metabox_id_nonce'], 'smp__metabox_id')) {
+	if (!wp_verify_nonce($_POST['smp_poll__metabox_id_nonce'], 'smp_poll__metabox_id')) {
 		return;
 	}
 
@@ -249,4 +249,4 @@ function smp_save_options($post_id)
 		update_post_meta($post_id, 'smp_poll_option_id', $smp_poll_option_id);
 	}
 }
-add_action('save_post', 'smp_save_options');
+add_action('save_post', 'smp_poll_save_options');

@@ -1,10 +1,10 @@
-# Copyright (C) 2022 Simple Poll
-# This file is distributed under the same license as the Simple Poll package.
+# Copyright (C) 2022 Simple Poll for WPORG
+# This file is distributed under the same license as the Simple Poll for WPORG package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Poll 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/smp-simple-poll-master\n"
-"POT-Creation-Date: 2022-07-05 07:41:48+00:00\n"
+"Project-Id-Version: Simple Poll for WPORG 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/qs_tool_wp_pot_gen_1657778163_4386_855195\n"
+"POT-Creation-Date: 2022-07-14 05:56:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,12 +16,29 @@ msgstr ""
 msgid "Add Poll Options"
 msgstr ""
 
-#: inc/backend/smp_poll_metaboxes.php:70 smp-simple-poll.php:229
+#: inc/backend/smp_poll_metaboxes.php:70 smp-simple-poll.php:221
 msgid "Poll Status"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:73 inc/frontend/smp_poll-template.php:31
+#: inc/frontend/smp_poll.php:50
+msgid "Live"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:74
+msgid "End"
 msgstr ""
 
 #: inc/backend/smp_poll_metaboxes.php:80
 msgid "Display Poll Result"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:83
+msgid "Private"
+msgstr ""
+
+#: inc/backend/smp_poll_metaboxes.php:84
+msgid "Public"
 msgstr ""
 
 #: inc/backend/smp_poll_metaboxes.php:89
@@ -44,112 +61,104 @@ msgstr ""
 msgid "Option 2"
 msgstr ""
 
-#: inc/backend/smp_widget.php:22 smp-simple-poll.php:53
+#: inc/backend/smp_poll_widget.php:22 smp-simple-poll.php:47
 msgid "Simple Poll"
 msgstr ""
 
-#: inc/backend/smp_widget.php:25
+#: inc/backend/smp_poll_widget.php:25
 msgid "Add Poll via widget in sidebar"
 msgstr ""
 
-#: inc/backend/smp_widget.php:54
+#: inc/backend/smp_poll_widget.php:54
 msgid "Select A Poll:"
 msgstr ""
 
-#: inc/backend/smp_widget.php:56
+#: inc/backend/smp_poll_widget.php:56
 msgid "Choose Poll"
 msgstr ""
 
-#: inc/frontend/smp_poll-template.php:31 inc/frontend/smp_poll.php:51
-msgid "Live"
-msgstr ""
-
-#: inc/frontend/smp_poll-template.php:32 inc/frontend/smp_poll.php:52
+#: inc/frontend/smp_poll-template.php:32 inc/frontend/smp_poll.php:51
 msgid "Ended"
 msgstr ""
 
-#: inc/frontend/smp_poll-template.php:118 inc/frontend/smp_poll.php:138
-msgid "<p class=\"smp_short_code\">This Poll is not yet ready contact site administrator</p>"
-msgstr ""
-
-#: inc/frontend/smp_poll-template.php:130 inc/frontend/smp_poll.php:150
+#: inc/frontend/smp_poll-template.php:121 inc/frontend/smp_poll.php:140
 msgid "You already partcipeted."
 msgstr ""
 
-#: smp-simple-poll.php:36 smp-simple-poll.php:37
-msgctxt "simple-poll"
+#: smp-simple-poll.php:30 smp-simple-poll.php:31
+msgctxt "smp-simple-poll"
 msgid "Simple Poll"
 msgstr ""
 
-#: smp-simple-poll.php:38 smp-simple-poll.php:39
+#: smp-simple-poll.php:32 smp-simple-poll.php:33
 msgid "Simple Polls"
 msgstr ""
 
-#: smp-simple-poll.php:40
+#: smp-simple-poll.php:34
 msgid "Parent Poll:"
 msgstr ""
 
-#: smp-simple-poll.php:41
+#: smp-simple-poll.php:35
 msgid "All Polls"
 msgstr ""
 
-#: smp-simple-poll.php:42
+#: smp-simple-poll.php:36
 msgid "Add New Poll"
 msgstr ""
 
-#: smp-simple-poll.php:43
+#: smp-simple-poll.php:37
 msgid "Add New"
 msgstr ""
 
-#: smp-simple-poll.php:44
+#: smp-simple-poll.php:38
 msgid "New Poll"
 msgstr ""
 
-#: smp-simple-poll.php:45
+#: smp-simple-poll.php:39
 msgid "Edit Poll"
 msgstr ""
 
-#: smp-simple-poll.php:46
+#: smp-simple-poll.php:40
 msgid "Update Poll"
 msgstr ""
 
-#: smp-simple-poll.php:47
+#: smp-simple-poll.php:41
 msgid "View Poll"
 msgstr ""
 
-#: smp-simple-poll.php:48
+#: smp-simple-poll.php:42
 msgid "Search Poll"
 msgstr ""
 
-#: smp-simple-poll.php:49
+#: smp-simple-poll.php:43
 msgid "Not found"
 msgstr ""
 
-#: smp-simple-poll.php:50
+#: smp-simple-poll.php:44
 msgid "Not found in Trash"
 msgstr ""
 
-#: smp-simple-poll.php:54
+#: smp-simple-poll.php:48
 msgid "Simple Poll Description"
 msgstr ""
 
-#: smp-simple-poll.php:228
+#: smp-simple-poll.php:220
 msgid "Poll ID"
 msgstr ""
 
-#: smp-simple-poll.php:230
+#: smp-simple-poll.php:222
 msgid "Shortcode"
 msgstr ""
 
-#: smp-simple-poll.php:231
+#: smp-simple-poll.php:223
 msgid "Result(Yes/No)"
 msgstr ""
 
-#: smp-simple-poll.php:248
+#: smp-simple-poll.php:240
 msgid "Unable to get shortcode"
 msgstr ""
 #. Plugin Name of the plugin/theme
-msgid "Simple Poll"
+msgid "Simple Poll for WPORG"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -165,7 +174,7 @@ msgid "Akash Mia"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://www.bprogrammer.net"
+msgid "https://bprogrammer.net"
 msgstr ""
 
 #. Tags of the plugin/theme

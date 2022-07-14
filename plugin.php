@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: Simple Poll
+Plugin Name: Simple
 Plugin Uri: https://github.com/akashmdiu/smp-simple-poll
 Description: The Simple Poll is a voting poll system into your post, pages and everywhere in website by just a shortcode. Add poll system to your post by placing shortcode.
 Author: Akash Mia
 Author URI: https://bprogrammer.net
 Version: 1.0.0
 Tags: simple poll, voting poll, survay, poll by shortcode, create poll.
-Text Domain: simple-poll
+Text Domain: smp-simple-poll
 Domain Path: /languages/
 Licence: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -42,17 +42,26 @@ if (!function_exists('smp_poll_active')) {
 /*********DEACTIVATOR*********/
 register_deactivation_hook(__FILE__, 'smp_poll_deactive');
 
-//Simple Poll Deactivation
+/** 
+*Simple Poll Deactivation
+*/
+
 if (!function_exists('smp_poll_deactive')) {
     function smp_poll_deactive()
     { }
 }
 
-function smp_load_textdomain()
-{
-    load_plugin_textdomain('simple-poll', false, dirname(__FILE__) . "/languages");
+/**
+ * Load text domain
+ */
+
+if (!function_exists('smp_poll_load_textdomain')) {
+    function smp_poll_load_textdomain()
+    {
+        load_plugin_textdomain('smp-simple-poll', false, dirname(__FILE__) . "/languages");
+    }
+    add_action('plugins_loaded', 'smp_poll_load_textdomain');
 }
-add_action('plugins_loaded', 'smp_load_textdomain');
 
 /**
  * Block Initializer.
@@ -60,6 +69,6 @@ add_action('plugins_loaded', 'smp_load_textdomain');
 require_once plugin_dir_path(__FILE__) . 'src/init.php';
 
 /**
- *  Initializer.
+ *  Poll Initializer.
  */
 require_once plugin_dir_path(__FILE__) . 'smp-simple-poll.php';

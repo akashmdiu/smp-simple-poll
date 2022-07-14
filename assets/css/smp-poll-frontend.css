@@ -1,7 +1,9 @@
 :root {
   --global--color-background: #fff !important;
 }
-
+.hidden{
+  display: none !important;
+}
 .text-align-center {
   text-align: center !important;
 }
