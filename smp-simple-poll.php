@@ -1,20 +1,19 @@
 <?php
-if (!function_exists('smp_poll_plugin_conf')) {
-	//Global File Attach
-	function smp_poll_plugin_conf()
-	{
-		if (!isset($_SESSION)) {
-			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
-			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
-			@session_start();
-		}
-	}
-	add_action('init', 'smp_poll_plugin_conf');
-}
 
-if(!function_exists('smp_poll_is_public')){
-	function smp_poll_is_public($smp_display_poll_result){
-		if($smp_display_poll_result === 'public'){
+
+if (!function_exists('smp_poll_is_public')) {
+	function smp_poll_is_public($smp_display_poll_result)
+	{
+		if ($smp_display_poll_result === 'public') {
+			return true;
+		}
+		return false;
+	}
+}
+if (!function_exists('smp_poll_is_public_after_vote')) {
+	function smp_poll_is_public_after_vote($smp_display_poll_result)
+	{
+		if ($smp_display_poll_result === 'public_after_vote') {
 			return true;
 		}
 		return false;
@@ -76,13 +75,14 @@ if (!function_exists('smp_poll_simple_poll_cpt')) {
 /**
  * Remove menu item for on Administrator
  */
-if(!function_exists('smp_poll_remove_menu_items')){
-	function smp_poll_remove_menu_items() {
-		if( !current_user_can( 'administrator' ) ):
-			remove_menu_page( 'edit.php?post_type=smp_poll' );
+if (!function_exists('smp_poll_remove_menu_items')) {
+	function smp_poll_remove_menu_items()
+	{
+		if (!current_user_can('administrator')) :
+			remove_menu_page('edit.php?post_type=smp_poll');
 		endif;
 	}
-	add_action( 'admin_menu', 'smp_poll_remove_menu_items' );
+	add_action('admin_menu', 'smp_poll_remove_menu_items');
 }
 
 /**
@@ -115,7 +115,7 @@ if (!function_exists('smp_poll_enqueue_script')) {
 	function smp_poll_enqueue_script()
 	{
 		wp_enqueue_script('smp-poll-ajax', plugins_url('/assets/js/smp-ajax-poll.js', __FILE__), array('jquery'), rand(23344, 43435));
-		
+
 		wp_localize_script('smp-poll-ajax', 'smp_poll_ajax_obj', array('ajax_url' => admin_url('admin-ajax.php')));
 		wp_enqueue_script('smp-poll-frontend', plugins_url('/assets/js/smp-poll-frontend.js', __FILE__), false, rand(23344, 43435));
 	}
@@ -150,10 +150,6 @@ if (!function_exists('smp_poll_ajax_smp_vote')) {
 	{
 
 		if (isset($_POST['action']) and $_POST['action'] == 'smp_vote') {
-			ini_set('session.cookie_lifetime', 60 * 60 * 24 * 2);
-			ini_set('session.gc-maxlifetime', 60 * 60 * 24 * 2);
-			@session_start();
-
 
 			if (isset($_POST['poll_id'])) {
 				$poll_id = intval(sanitize_text_field($_POST['poll_id']));
@@ -167,14 +163,12 @@ if (!function_exists('smp_poll_ajax_smp_vote')) {
 			//Validate Poll ID
 			if (!$poll_id) {
 				$poll_id = '';
-				$_SESSION['smp_session'] = uniqid();
 				die(json_encode(array("voting_status" => "error", "msg" => "Fields are required")));
 			}
 
 			//Validate Option ID
 			if (!$option_id) {
 				$option_id = '';
-				$_SESSION['smp_session'] = uniqid();
 				die(json_encode(array("voting_status" => "error", "msg" => "Fields are required")));
 			}
 
@@ -187,7 +181,7 @@ if (!function_exists('smp_poll_ajax_smp_vote')) {
 				$oldest_total_vote = get_post_meta($poll_id, 'smp_vote_total_count', true);
 			}
 
-			if (!smp_poll_check_for_unique_voting($poll_id, $option_id)) {
+			if (!smp_poll_check_for_unique_voting($poll_id)) {
 
 				$new_total_vote = intval($oldest_total_vote) + 1;
 				$new_vote = (int) $oldest_vote + 1;
@@ -201,7 +195,6 @@ if (!function_exists('smp_poll_ajax_smp_vote')) {
 				$outputdata['voting_status'] = "done";
 				$outputdataPercentage = ($new_vote * 100) / $new_total_vote;
 				$outputdata['total_vote_percentage'] = (int) $outputdataPercentage;
-				$_SESSION['smp_session_' . $poll_id] = uniqid();
 
 				print_r(json_encode($outputdata));
 			}
@@ -235,12 +228,12 @@ if (!function_exists('smp_poll_custom_column')) {
 			case 'shortcode':
 				$code = '[SIMPLE_POLL id="' . $post_id . '"][/SIMPLE_POLL]';
 				if (is_string($code))
-					echo wp_kses_post('<code>' .$code. '</code>');
+					echo wp_kses_post('<code>' . $code . '</code>');
 				else
 					_e('Unable to get shortcode', 'smp-simple-poll');
 				break;
 			case 'poll_status':
-				echo wp_kses_post("<span style='text-transform:uppercase'>" .get_post_meta(get_the_id(), 'smp_poll_status', true). "</span>");
+				echo wp_kses_post("<span style='text-transform:uppercase'>" . get_post_meta(get_the_id(), 'smp_poll_status', true) . "</span>");
 				break;
 			case 'smp_poll_id':
 				echo wp_kses_post("<span style='text-transform:uppercase'>" . esc_attr(get_the_id()) . "</span>");
@@ -250,21 +243,21 @@ if (!function_exists('smp_poll_custom_column')) {
 				$option_id = '';
 				$option_id = get_post_meta($post_id, 'smp_poll_option_id', true);
 
-				
+
 				$count_yes = 0;
 				$count_no = 0;
 
-				if(!empty($option_id[0])){
-					if (get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true)) {
-						$count_yes = get_post_meta($post_id, 'smp_vote_count_'.(float) $option_id[0], true);
+				if (!empty($option_id[0])) {
+					if (get_post_meta($post_id, 'smp_vote_count_' . (float) $option_id[0], true)) {
+						$count_yes = get_post_meta($post_id, 'smp_vote_count_' . (float) $option_id[0], true);
 					}
 				}
-				if(!empty($option_id[1])){
-					if (get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true)) {
-						$count_no = get_post_meta($post_id, 'smp_vote_count_'. (float)$option_id[1], true);
+				if (!empty($option_id[1])) {
+					if (get_post_meta($post_id, 'smp_vote_count_' . (float) $option_id[1], true)) {
+						$count_no = get_post_meta($post_id, 'smp_vote_count_' . (float) $option_id[1], true);
 					}
 				}
-				echo esc_html($count_yes.'/'.$count_no);
+				echo esc_html($count_yes . '/' . $count_no);
 				break;
 		}
 	}
@@ -273,17 +266,10 @@ if (!function_exists('smp_poll_custom_column')) {
 
 if (!function_exists('smp_poll_check_for_unique_voting')) {
 
-	function smp_poll_check_for_unique_voting($poll_id, $option_id)
+	function smp_poll_check_for_unique_voting($poll_id)
 	{
 
-		if (isset($_SESSION['smp_session_' . $poll_id])) {
-			return true;
-		} else {
-
-			return false;
-		}
-
-		if (isset($_SESSION['smp_session'])) {
+		if (isset($_COOKIE['is_voted_' . $poll_id])) {
 			return true;
 		} else {
 			return false;

@@ -36,17 +36,16 @@ function smp_poll_metabox_forms($post)
 	$smp_poll_status = get_post_meta($post->ID, 'smp_poll_status', true);
 	$smp_display_poll_result = get_post_meta($post->ID, 'smp_display_poll_result', true);
 
-	
+
 	$smp_poll_end_date = get_post_meta($post->ID, 'smp_end_date', true);
 
-	$smp_today = date("Y-m-d"); 
-	if(!empty($smp_poll_end_date)){
+	$smp_today = date("Y-m-d");
+	if (!empty($smp_poll_end_date)) {
 		if ($smp_today > $smp_poll_end_date) {
 			$smp_poll_status = 'end';
-			update_post_meta( $post->ID, 'smp_poll_status', 'end' );
+			update_post_meta($post->ID, 'smp_poll_status', 'end');
 		}
-	}
-	else{
+	} else {
 		$smp_poll_end_date = $smp_today;
 	}
 
@@ -55,7 +54,7 @@ function smp_poll_metabox_forms($post)
 	if (get_post_meta($post->ID, 'smp_poll_option', true)) {
 		$smp_poll_option = get_post_meta($post->ID, 'smp_poll_option', true);
 	}
-	
+
 	$smp_poll_option_id = get_post_meta($post->ID, 'smp_poll_option_id', true);
 	$smp_poll_vote_total_count = (int) get_post_meta($post->ID, 'smp_vote_total_count', true);
 
@@ -70,8 +69,8 @@ function smp_poll_metabox_forms($post)
 			<td><?php _e('Poll Status', 'smp-simple-poll'); ?></td>
 			<td>
 				<select class="widefat" id="smp_poll_status" name="smp_poll_status" value="" required>
-					<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected'); ?>> <?php echo esc_html__( 'Live', 'smp-simple-poll' ); ?></option>
-					<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected'); ?>><?php echo esc_html__( 'End', 'smp-simple-poll' ); ?> </option>
+					<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected'); ?>> <?php echo esc_html__('Live', 'smp-simple-poll'); ?></option>
+					<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected'); ?>><?php echo esc_html__('End', 'smp-simple-poll'); ?> </option>
 				</select>
 			</td>
 
@@ -79,9 +78,11 @@ function smp_poll_metabox_forms($post)
 		<tr>
 			<td><?php _e('Display Poll Result', 'smp-simple-poll'); ?></td>
 			<td>
-				<select class="widefat" id="smp_display_poll_result" name="smp_display_poll_result" value="" required>	
-					<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected'); ?>><?php echo esc_html__( 'Private', 'smp-simple-poll' ); ?> </option>
-					<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected'); ?>><?php echo esc_html__( 'Public', 'smp-simple-poll' ); ?></option>
+				<select class="widefat" id="smp_display_poll_result" name="smp_display_poll_result" value="" required>
+					<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected'); ?>><?php echo esc_html__('Private', 'smp-simple-poll'); ?> </option>
+					<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected'); ?>><?php echo esc_html__('Public', 'smp-simple-poll'); ?></option>
+
+					<option value="public_after_vote" <?php if ($smp_display_poll_result == 'public_after_vote') echo esc_attr('selected'); ?>><?php echo esc_html__('Public after Vote', 'smp-simple-poll'); ?></option>
 				</select>
 			</td>
 		</tr>
@@ -102,7 +103,7 @@ function smp_poll_metabox_forms($post)
 				foreach ($smp_poll_option as $smp_poll_opt) :
 					$pollKEYIt = (float) $smp_poll_option_id[$i];
 					$smp_poll_vote_count = (int) get_post_meta($post->ID, 'smp_vote_count_' . $pollKEYIt, true);
-					
+
 					if (!$smp_poll_vote_count) {
 						$smp_poll_vote_count = 0;
 					}
@@ -117,7 +118,7 @@ function smp_poll_metabox_forms($post)
 								</td>
 							</tr>
 							<tr>
-								<td><?php _e('Get Vote', 'smp-simple-poll'); ?>
+								<td><?php echo wp_kses_post('Get <strong>' . $smp_poll_opt . '</strong>'); ?>
 								</td>
 								<td><input type="number" class="widefat" id="smp_indi_vote" name="smp_indi_vote[]" value="<?php echo esc_attr($smp_poll_vote_count); ?>" disabled="" />
 								</td>
