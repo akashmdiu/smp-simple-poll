@@ -35,3 +35,11 @@ This plugin is used and tested on PHP version 7.3 and 8.0.13,
 * Initial public release. 
 * Date: 4-July-2022
 
+= 1.2.0 =
+* Remove Session implementation
+* Added Cookie
+* Added 'Public after Vote' option for Display Poll Result
+* Updated security
+* Added uninstall functionality
+* Date: 25-July-2022
+
