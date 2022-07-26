@@ -35,6 +35,7 @@ function smp_poll_add_shortcode($atts, $content = null)
 			$smp_poll_option_id = get_post_meta(get_the_id(), 'smp_poll_option_id', true);
 			$smp_poll_end_date = get_post_meta(get_the_id(), 'smp_end_date', true);
 			$smp_poll_vote_total_count = (int) get_post_meta(get_the_id(), 'smp_vote_total_count', true);
+			$smp_poll_color = get_post_meta(get_the_id(), 'smp_poll_color', true);
 
 			$is_public = smp_poll_is_public($smp_display_poll_result);
 			$is_pav = smp_poll_is_public_after_vote($smp_display_poll_result);
@@ -55,7 +56,7 @@ function smp_poll_add_shortcode($atts, $content = null)
 			}
 
 			?>
-			<div class="smp_container text-align-center " id="smp-poll-<?php echo esc_attr(get_the_id()); ?>">
+			<div class="smp_container text-align-center smp-poll-<?php echo esc_attr(get_the_id()); ?>" id="smp-poll-<?php echo esc_attr(get_the_id()); ?>">
 				<div class="smp_survey-stage">
 					<span class="smp_stage smp_live smp_active <?php if ($smp_poll_status !== 'live') echo esc_attr('hidden'); ?>"><?php echo esc_html__('Live', 'smp-simple-poll'); ?></span>
 					<span class="smp_stage smp_ended smp_active <?php if ($smp_poll_status !== 'end') echo esc_attr('hidden'); ?>"><?php echo esc_html__('Ended', 'smp-simple-poll'); ?></span>
@@ -154,7 +155,9 @@ function smp_poll_add_shortcode($atts, $content = null)
 								endif; ?>
 				</div>
 			</div>
-<?php endwhile;
+
+<?php echo dynamic_poll_style(get_the_id(), $smp_poll_color);
+		endwhile;
 	}
 
 	$output = ob_get_contents();

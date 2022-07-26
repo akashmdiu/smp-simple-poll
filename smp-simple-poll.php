@@ -276,5 +276,27 @@ if (!function_exists('smp_poll_check_for_unique_voting')) {
 		}
 	}
 }
+if (!function_exists('dynamic_poll_style')) {
+
+	function dynamic_poll_style($poll_id, $color)
+	{
+
+		return '<style>
+				.smp-poll-' . esc_html($poll_id) . ' .smp_fill-option,
+				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-stage .smp_live,
+				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-stage .smp_ended,
+				.smp-poll-' . esc_html($poll_id) . ' .smp_inner {
+					background: ' . esc_html($color) . '!important;
+				}
+				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-item-action-form input[role=vote]{
+					border-color: ' . esc_html($color) . '!important;
+				}
+				.smp-poll-' . esc_html($poll_id) . ' .smp_user-partcipeted{
+					color: ' . esc_html($color) . '!important;
+				}
+			</style>';
+	}
+}
+
 
 include_once('inc/backend/smp_poll_widget.php');

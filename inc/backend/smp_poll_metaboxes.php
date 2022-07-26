@@ -35,7 +35,7 @@ function smp_poll_metabox_forms($post)
 	 */
 	$smp_poll_status = get_post_meta($post->ID, 'smp_poll_status', true);
 	$smp_display_poll_result = get_post_meta($post->ID, 'smp_display_poll_result', true);
-
+	$smp_poll_color = get_post_meta($post->ID, 'smp_poll_color', true);
 
 	$smp_poll_end_date = get_post_meta($post->ID, 'smp_end_date', true);
 
@@ -61,104 +61,112 @@ function smp_poll_metabox_forms($post)
 	?>
 	<?php if (($post->post_type == 'smp_poll') && isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit') { ?>
 		<div class="smp_short_code">
-			<?php _e('Shortcode for this poll is : <code>[SIMPLE_POLL id="' . $post->ID . '"][/SIMPLE_POLL]</code> (Insert it anywhere in your post/page and show your poll)', 'smp-simple-poll'); ?>
+			<?php _e('Shortcode for this poll is : <code>[SIMPLE_POLL id="' . $post->ID . '"]</code> (Insert it anywhere in your post/page and show your poll)', 'smp-simple-poll'); ?>
 		</div>
 	<?php } ?>
-	<table class="form-table smp_meta_table">
-		<tr>
-			<td><?php _e('Poll Status', 'smp-simple-poll'); ?></td>
-			<td>
-				<select class="widefat" id="smp_poll_status" name="smp_poll_status" value="" required>
-					<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected'); ?>> <?php echo esc_html__('Live', 'smp-simple-poll'); ?></option>
-					<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected'); ?>><?php echo esc_html__('End', 'smp-simple-poll'); ?> </option>
-				</select>
-			</td>
+	<form action="/">
+		<table class="form-table smp_meta_table">
+			<tr>
+				<td><?php _e('Poll Status', 'smp-simple-poll'); ?></td>
+				<td>
+					<select class="widefat" id="smp_poll_status" name="smp_poll_status" value="" required>
+						<option value="live" <?php if ($smp_poll_status == 'live') echo esc_attr('selected'); ?>> <?php echo esc_html__('Live', 'smp-simple-poll'); ?></option>
+						<option value="end" <?php if ($smp_poll_status == 'end') echo esc_attr('selected'); ?>><?php echo esc_html__('End', 'smp-simple-poll'); ?> </option>
+					</select>
+				</td>
 
-		</tr>
-		<tr>
-			<td><?php _e('Display Poll Result', 'smp-simple-poll'); ?></td>
-			<td>
-				<select class="widefat" id="smp_display_poll_result" name="smp_display_poll_result" value="" required>
-					<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected'); ?>><?php echo esc_html__('Private', 'smp-simple-poll'); ?> </option>
-					<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected'); ?>><?php echo esc_html__('Public', 'smp-simple-poll'); ?></option>
+			</tr>
+			<tr>
+				<td><?php _e('Display Poll Result', 'smp-simple-poll'); ?></td>
+				<td>
+					<select class="widefat" id="smp_display_poll_result" name="smp_display_poll_result" value="" required>
+						<option value="private" <?php if ($smp_display_poll_result == 'private') echo esc_attr('selected'); ?>><?php echo esc_html__('Private', 'smp-simple-poll'); ?> </option>
 
-					<option value="public_after_vote" <?php if ($smp_display_poll_result == 'public_after_vote') echo esc_attr('selected'); ?>><?php echo esc_html__('Public after Vote', 'smp-simple-poll'); ?></option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><?php _e('Poll End Date', 'smp-simple-poll'); ?></td>
-			<td>
-				<input type="date" id="smp_end-date" name="smp_end_date" value="<?= $smp_poll_end_date; ?>" min="<?= date("Y-m-d") ?>">
-			</td>
+						<option value="public" <?php if ($smp_display_poll_result == 'public') echo esc_attr('selected'); ?>><?php echo esc_html__('Public', 'smp-simple-poll'); ?></option>
 
-		</tr>
+						<option value="public_after_vote" <?php if ($smp_display_poll_result == 'public_after_vote') echo esc_attr('selected'); ?>><?php echo esc_html__('Public after Vote', 'smp-simple-poll'); ?></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><?php _e('Poll End Date', 'smp-simple-poll'); ?></td>
+				<td>
+					<input type="date" id="smp_end-date" name="smp_end_date" value="<?= $smp_poll_end_date; ?>" min="<?= date("Y-m-d") ?>">
+				</td>
+			</tr>
+
+			<tr>
+				<td><?php _e('Poll Color', 'smp-simple-poll'); ?></td>
+				<td>
+					<input type="color" id="smp_poll_color" name="smp_poll_color" value="<?= $smp_poll_color; ?>">
+				</td>
+			</tr>
 
 
-	</table>
+		</table>
 
-	<table class="form-table" id="smp_append_option_filed">
-		<?php if (!empty($smp_poll_option)) {
-				$i = 0;
-				foreach ($smp_poll_option as $smp_poll_opt) :
-					$pollKEYIt = (float) $smp_poll_option_id[$i];
-					$smp_poll_vote_count = (int) get_post_meta($post->ID, 'smp_vote_count_' . $pollKEYIt, true);
+		<table class="form-table" id="smp_append_option_filed">
+			<?php if (!empty($smp_poll_option)) {
+					$i = 0;
+					foreach ($smp_poll_option as $smp_poll_opt) :
+						$pollKEYIt = (float) $smp_poll_option_id[$i];
+						$smp_poll_vote_count = (int) get_post_meta($post->ID, 'smp_vote_count_' . $pollKEYIt, true);
 
-					if (!$smp_poll_vote_count) {
-						$smp_poll_vote_count = 0;
-					}
-					?>
+						if (!$smp_poll_vote_count) {
+							$smp_poll_vote_count = 0;
+						}
+						?>
+					<tr class="smp_append_option_filed_tr">
+						<td>
+							<table class="form-table">
+								<tr>
+									<td><?php _e('Option Name', 'smp-simple-poll'); ?></td>
+									<td>
+										<input type="text" class="widefat" id="smp_poll_option" name="smp_poll_option[]" value="<?php echo esc_attr($smp_poll_opt); ?>" required />
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo wp_kses_post('Get <strong>' . $smp_poll_opt . '</strong>'); ?>
+									</td>
+									<td><input type="number" class="widefat" id="smp_indi_vote" name="smp_indi_vote[]" value="<?php echo esc_attr($smp_poll_vote_count); ?>" disabled="" />
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				<?php
+							$i++;
+						endforeach;
+					} else { ?>
 				<tr class="smp_append_option_filed_tr">
 					<td>
 						<table class="form-table">
 							<tr>
-								<td><?php _e('Option Name', 'smp-simple-poll'); ?></td>
+								<td><?php echo esc_html__('Option 1', 'smp-simple-poll'); ?></td>
 								<td>
-									<input type="text" class="widefat" id="smp_poll_option" name="smp_poll_option[]" value="<?php echo esc_attr($smp_poll_opt); ?>" required />
-								</td>
-							</tr>
-							<tr>
-								<td><?php echo wp_kses_post('Get <strong>' . $smp_poll_opt . '</strong>'); ?>
-								</td>
-								<td><input type="number" class="widefat" id="smp_indi_vote" name="smp_indi_vote[]" value="<?php echo esc_attr($smp_poll_vote_count); ?>" disabled="" />
+									<input type="text" value="Yes" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
+									<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
 								</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
-			<?php
-						$i++;
-					endforeach;
-				} else { ?>
-			<tr class="smp_append_option_filed_tr">
-				<td>
-					<table class="form-table">
-						<tr>
-							<td><?php echo esc_html__('Option 1', 'smp-simple-poll'); ?></td>
-							<td>
-								<input type="text" value="Yes" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
-								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr class="smp_append_option_filed_tr">
-				<td>
-					<table class="form-table">
-						<tr>
-							<td><?php echo esc_html__('Option 2', 'smp-simple-poll'); ?></td>
-							<td>
-								<input type="text" value="No" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
-								<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		<?php } ?>
-	</table>
-
+				<tr class="smp_append_option_filed_tr">
+					<td>
+						<table class="form-table">
+							<tr>
+								<td><?php echo esc_html__('Option 2', 'smp-simple-poll'); ?></td>
+								<td>
+									<input type="text" value="No" class="widefat" id="smp_poll_option" name="smp_poll_option[]" required>
+									<input type="hidden" name="smp_poll_option_id[]" id="smp_poll_option_id" value="<?php echo esc_attr(rand(947984929347923, 112984929347923)); ?>" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			<?php } ?>
+		</table>
+	</form>
 
 <?php
 }
@@ -248,6 +256,11 @@ function smp_poll_save_options($post_id)
 	if (isset($_POST['smp_poll_option_id'])) {
 		$smp_poll_option_id = array_map('sanitize_text_field', $_POST['smp_poll_option_id']);
 		update_post_meta($post_id, 'smp_poll_option_id', $smp_poll_option_id);
+	}
+	//Update UiUx color
+	if (isset($_POST['smp_poll_color'])) {
+		$smp_poll_color =  sanitize_text_field($_POST['smp_poll_color']);
+		update_post_meta($post_id, 'smp_poll_color', $smp_poll_color);
 	}
 }
 add_action('save_post', 'smp_poll_save_options');
