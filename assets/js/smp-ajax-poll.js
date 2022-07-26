@@ -74,11 +74,18 @@ jQuery(document).ready(function () {
 				jQuery('.activated .smp_user-partcipeted').text('Thank you for participating.');
 
 
-
-				function createCookie(name, value) {
-					document.cookie = escape(name) + "=" + escape(value) + "; path=/";
+				function createCookie(name, value, days) {
+					let expires = "";
+					if (days) {
+						let date = new Date();
+						date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+						expires = "; expires=" + date.toGMTString();
+					}
+					document.cookie = name + "=" + value + expires + "; path=/";
 				}
-				createCookie(`is_voted_${data.poll_id}`, "1");
+				createCookie(`is_voted_${data.poll_id}`, "1", 365);
+
+
 
 			});
 
@@ -87,3 +94,4 @@ jQuery(document).ready(function () {
 	});
 
 });
+
