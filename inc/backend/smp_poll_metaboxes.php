@@ -34,8 +34,10 @@ function smp_poll_metabox_forms($post)
 	 * from the database and use the value for the form.
 	 */
 	$smp_poll_status = get_post_meta($post->ID, 'smp_poll_status', true);
+	$smp_poll_color_options = get_post_meta($post->ID, 'smp_poll_color_options', true);
 	$smp_display_poll_result = get_post_meta($post->ID, 'smp_display_poll_result', true);
 	$smp_poll_color = get_post_meta($post->ID, 'smp_poll_color', true);
+	$smp_poll_second_color = get_post_meta($post->ID, 'smp_poll_second_color', true);
 
 	$smp_poll_end_date = get_post_meta($post->ID, 'smp_end_date', true);
 
@@ -94,11 +96,22 @@ function smp_poll_metabox_forms($post)
 					<input type="date" id="smp_end-date" name="smp_end_date" value="<?= $smp_poll_end_date; ?>" min="<?= date("Y-m-d") ?>">
 				</td>
 			</tr>
-
 			<tr>
 				<td><?php _e('Poll Color', 'smp-simple-poll'); ?></td>
 				<td>
+					<select class="widefat" id="smp_poll_color_options" name="smp_poll_color_options" value="" required>
+
+						<option value="gradient" <?php if ($smp_poll_color_options == 'gradient') echo esc_attr('selected'); ?>><?php echo esc_html__('Gradient', 'smp-simple-poll'); ?></option>
+						<option value="solid" <?php if ($smp_poll_color_options == 'solid') echo esc_attr('selected'); ?>><?php echo esc_html__('Solid', 'smp-simple-poll'); ?></option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td id="smp_poll_colors">
 					<input type="color" id="smp_poll_color" name="smp_poll_color" value="<?= $smp_poll_color; ?>">
+					<input type="color" id="smp_poll_second_color " class="color2 <?php if ($smp_poll_color_options === 'solid') echo esc_attr('hidden');  ?>" name="smp_poll_second_color" value="<?= $smp_poll_second_color; ?>">
 				</td>
 			</tr>
 
@@ -257,10 +270,23 @@ function smp_poll_save_options($post_id)
 		$smp_poll_option_id = array_map('sanitize_text_field', $_POST['smp_poll_option_id']);
 		update_post_meta($post_id, 'smp_poll_option_id', $smp_poll_option_id);
 	}
+
+	//Updating Poll Status
+	if (isset($_POST['smp_poll_color_options'])) {
+		$smp_poll_color_options =  sanitize_text_field($_POST['smp_poll_color_options']);
+		update_post_meta($post_id, 'smp_poll_color_options', $smp_poll_color_options);
+	}
+
 	//Update UiUx color
 	if (isset($_POST['smp_poll_color'])) {
 		$smp_poll_color =  sanitize_text_field($_POST['smp_poll_color']);
 		update_post_meta($post_id, 'smp_poll_color', $smp_poll_color);
+	}
+
+	//Update UiUx color
+	if (isset($_POST['smp_poll_second_color'])) {
+		$smp_poll_second_color =  sanitize_text_field($_POST['smp_poll_second_color']);
+		update_post_meta($post_id, 'smp_poll_second_color', $smp_poll_second_color);
 	}
 }
 add_action('save_post', 'smp_poll_save_options');

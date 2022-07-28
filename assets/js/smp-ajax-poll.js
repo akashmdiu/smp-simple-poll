@@ -1,5 +1,6 @@
 jQuery(document).ready(function () {
 
+
 	if (jQuery(".smp_survey-item-action-disabled").length > 0) {
 		jQuery(".smp_survey-item-action-disabled .smp_survey-vote-button").addClass("smp_disabled-button");
 		jQuery(".smp_survey-item-action-disabled .smp_disabled-button").removeClass("smp_survey-vote-button");

@@ -51,3 +51,9 @@ This plugin is used and tested on PHP version 7.3 and 8.0.13,
 * Update Cookie expire date
 - Date: 26-July-2022
 
+= 1.1.3 =
+* New Featured: Added custom poll color Option
+* New Featured: Added background image option
+
+- Date: 26-July-2022
+

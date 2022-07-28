@@ -28,7 +28,7 @@ if (!function_exists('smp_poll_simple_poll_cpt')) {
 		$labels = array(
 			'name'                => _x('Simple Poll', 'smp-simple-poll'),
 			'singular_name'       => _x('Simple Poll',  'smp-simple-poll'),
-			'menu_name'           => __('Simple Polls', 'smp-simple-poll'),
+			'menu_name'           => __('Simple Poll', 'smp-simple-poll'),
 			'name_admin_bar'      => __('Simple Polls', 'smp-simple-poll'),
 			'parent_item_colon'   => __('Parent Poll:', 'smp-simple-poll'),
 			'all_items'           => __('All Polls', 'smp-simple-poll'),
@@ -88,12 +88,15 @@ if (!function_exists('smp_poll_remove_menu_items')) {
 /**
  * Add Simple Poll Admin Style
  */
-if (!function_exists('smp_poll_css_register')) {
-	add_action('admin_enqueue_scripts', 'smp_poll_css_register', 1);
-	function smp_poll_css_register()
+if (!function_exists('smp_poll_admin_scripts')) {
+	add_action('admin_enqueue_scripts', 'smp_poll_admin_scripts', 1);
+	function smp_poll_admin_scripts()
 	{
 		wp_register_style('smp-poll-backend', plugins_url('/assets/css/smp-poll-backend.css', __FILE__));
 		wp_enqueue_style(array('smp-poll-backend'));
+
+		wp_register_script('smp-poll-backend', plugins_url('/assets/js/smp-poll-backend.js', __FILE__));
+		wp_enqueue_script(array('smp-poll-backend'));
 	}
 }
 
@@ -278,21 +281,24 @@ if (!function_exists('smp_poll_check_for_unique_voting')) {
 }
 if (!function_exists('dynamic_poll_style')) {
 
-	function dynamic_poll_style($poll_id, $color)
+	function dynamic_poll_style($poll_id, $color1, $color2, $color_type)
 	{
+		if ($color_type === 'gradient') {
+			$bg_color = 'linear-gradient(to right, ' . $color1 . ', ' . $color2 . ')';
+		} else {
+			$bg_color = $color1;
+		}
+
 
 		return '<style>
 				.smp-poll-' . esc_html($poll_id) . ' .smp_fill-option,
 				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-stage .smp_live,
 				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-stage .smp_ended,
 				.smp-poll-' . esc_html($poll_id) . ' .smp_inner {
-					background: ' . esc_html($color) . '!important;
+					background: ' . esc_html($bg_color) . '!important;
 				}
 				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-item-action-form input[role=vote]{
-					border-color: ' . esc_html($color) . '!important;
-				}
-				.smp-poll-' . esc_html($poll_id) . ' .smp_user-partcipeted{
-					color: ' . esc_html($color) . '!important;
+					border-color: ' . esc_html($color1) . '!important;
 				}
 			</style>';
 	}

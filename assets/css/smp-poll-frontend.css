@@ -1,5 +1,6 @@
 :root {
-  --global--color-background: #fff !important;
+  --global-color-background: #fff !important;
+  --smp-poll-color:
 }
 
 .hidden {
@@ -240,10 +241,10 @@ h3 {
   background-color: transparent;
   width: 28px;
   border-width: 0px;
-  border-color: green;
+  border-color: #008000;
   -webkit-animation: turn-vote 5s linear;
   animation: turn-vote 5s linear;
-  border-top-color: green;
+  border-top-color: #008000;
   background-color: #ddd;
 }
 
