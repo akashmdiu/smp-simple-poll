@@ -99,7 +99,7 @@ if (!function_exists('smp_poll_render_posts_block')) {
 	function smp_poll_render_posts_block($attributes)
 	{
 		ob_start();
-		echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($attributes['selectedPost']) . '"][/SIMPLE_POLL]');
+		echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($attributes['selectedPost']) . '"]');
 		return ob_get_clean();
 	}
 }

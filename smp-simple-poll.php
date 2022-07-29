@@ -41,12 +41,17 @@ if (!function_exists('smp_poll_simple_poll_cpt')) {
 			'search_items'        => __('Search Poll', 'smp-simple-poll'),
 			'not_found'           => __('Not found', 'smp-simple-poll'),
 			'not_found_in_trash'  => __('Not found in Trash', 'smp-simple-poll'),
+			'featured_image'        => __('Poll Background', 'smp-simple-poll'),
+			'set_featured_image'    => __('Set Poll Background', 'smp-simple-poll'),
+			'remove_featured_image' => __('Remove Poll Background', 'smp-simple-poll'),
+			'use_featured_image'    => __('Use as Poll Background', 'smp-simple-poll'),
+			'uploaded_to_this_item' => __('Uploaded to this bank', 'smp-simple-poll'),
 		);
 		$args = array(
 			'label'               => __('Simple Poll', 'smp-simple-poll'),
 			'description'         => __('Simple Poll Description', 'smp-simple-poll'),
 			'labels'              => $labels,
-			'supports'            => array('title', 'revisions'),
+			'supports'            => array('title', 'revisions',  'thumbnail'),
 			'show_in_rest' 		  => true,
 			'hierarchical'        => true,
 			'public'              => true,
@@ -229,7 +234,7 @@ if (!function_exists('smp_poll_custom_column')) {
 		switch ($column) {
 
 			case 'shortcode':
-				$code = '[SIMPLE_POLL id="' . $post_id . '"][/SIMPLE_POLL]';
+				$code = '[SIMPLE_POLL id="' . $post_id . '"]';
 				if (is_string($code))
 					echo wp_kses_post('<code>' . $code . '</code>');
 				else
@@ -281,8 +286,9 @@ if (!function_exists('smp_poll_check_for_unique_voting')) {
 }
 if (!function_exists('dynamic_poll_style')) {
 
-	function dynamic_poll_style($poll_id, $color1, $color2, $color_type)
+	function dynamic_poll_style($poll_id, $color1, $color2, $color_type, $poll_bg)
 	{
+
 		if ($color_type === 'gradient') {
 			$bg_color = 'linear-gradient(to right, ' . $color1 . ', ' . $color2 . ')';
 		} else {
@@ -297,8 +303,15 @@ if (!function_exists('dynamic_poll_style')) {
 				.smp-poll-' . esc_html($poll_id) . ' .smp_inner {
 					background: ' . esc_html($bg_color) . '!important;
 				}
+				
 				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-item-action-form input[role=vote]{
 					border-color: ' . esc_html($color1) . '!important;
+				}
+				.smp_inner:after {
+					background: ' . esc_html($bg_color) . '!important;
+				}
+				.smp_inner::before {
+					background-image: url("' . esc_html($poll_bg) . '");
 				}
 			</style>';
 	}

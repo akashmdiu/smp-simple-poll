@@ -135,7 +135,7 @@ while (have_posts()) : the_post();
 		</div>
 	</div>
 
-	<?php echo dynamic_poll_style(get_the_id(), $color1, $color2, $color_type); ?>
+	<?php echo dynamic_poll_style(get_the_id(), $color1, $color2, $color_type, get_the_post_thumbnail_url(get_the_ID(), 'thumbnail')); ?>
 
 <?php endwhile;
 

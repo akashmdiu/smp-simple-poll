@@ -35,7 +35,9 @@ function smp_poll_add_shortcode($atts, $content = null)
 			$smp_poll_option_id = get_post_meta(get_the_id(), 'smp_poll_option_id', true);
 			$smp_poll_end_date = get_post_meta(get_the_id(), 'smp_end_date', true);
 			$smp_poll_vote_total_count = (int) get_post_meta(get_the_id(), 'smp_vote_total_count', true);
-			$smp_poll_color = get_post_meta(get_the_id(), 'smp_poll_color', true);
+			$color1 = get_post_meta(get_the_id(), 'smp_poll_color', true);
+			$color2 = get_post_meta(get_the_id(), 'smp_poll_second_color', true);
+			$color_type = get_post_meta(get_the_id(), 'smp_poll_color_options', true);
 
 			$is_public = smp_poll_is_public($smp_display_poll_result);
 			$is_pav = smp_poll_is_public_after_vote($smp_display_poll_result);
@@ -156,7 +158,7 @@ function smp_poll_add_shortcode($atts, $content = null)
 				</div>
 			</div>
 
-<?php echo dynamic_poll_style(get_the_id(), $smp_poll_color);
+<?php echo dynamic_poll_style(get_the_id(), $color1, $color2, $color_type, get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'));
 		endwhile;
 	}
 

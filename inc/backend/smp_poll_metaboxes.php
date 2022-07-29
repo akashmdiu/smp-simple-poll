@@ -39,6 +39,14 @@ function smp_poll_metabox_forms($post)
 	$smp_poll_color = get_post_meta($post->ID, 'smp_poll_color', true);
 	$smp_poll_second_color = get_post_meta($post->ID, 'smp_poll_second_color', true);
 
+
+	if (!$smp_poll_color) {
+		$smp_poll_color = '#1f2e75';
+	}
+	if (!$smp_poll_second_color) {
+		$smp_poll_second_color = '#1a2558';
+	}
+
 	$smp_poll_end_date = get_post_meta($post->ID, 'smp_end_date', true);
 
 	$smp_today = date("Y-m-d");
@@ -114,8 +122,6 @@ function smp_poll_metabox_forms($post)
 					<input type="color" id="smp_poll_second_color " class="color2 <?php if ($smp_poll_color_options === 'solid') echo esc_attr('hidden');  ?>" name="smp_poll_second_color" value="<?= $smp_poll_second_color; ?>">
 				</td>
 			</tr>
-
-
 		</table>
 
 		<table class="form-table" id="smp_append_option_filed">

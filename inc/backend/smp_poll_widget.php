@@ -6,7 +6,7 @@ function smp_poll_register_widget()
 	register_widget('smp_poll_widget');
 }
 add_action('widgets_init', 'smp_poll_register_widget');
-add_action('widgets_init', 'smp_poll_register_widget'); //wp-blocks
+
 // Creating the widget 
 class smp_poll_widget extends WP_Widget
 {
@@ -34,22 +34,22 @@ class smp_poll_widget extends WP_Widget
 		echo wp_kses_post($args['before_widget']);
 		?>
 		<div class="smp_poll_widget">
-			<?php echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($poll_id) . '" use_in="widget"][/SIMPLE_POLL]'); ?>
-		</div>	
+			<?php echo do_shortcode('[SIMPLE_POLL id="' . esc_attr($poll_id) . '" use_in="widget"]'); ?>
+		</div>
 	<?php
-		echo wp_kses_post($args['after_widget']);
-	 }
-
-	// Widget Backend 
-	public function form($instance)
-	{
-		if (isset($instance['poll_id'])) {
-			$poll_id = $instance['poll_id'];
-		} else {
-			$poll_id = 1;
+			echo wp_kses_post($args['after_widget']);
 		}
-		// Widget admin form
-		?>
+
+		// Widget Backend 
+		public function form($instance)
+		{
+			if (isset($instance['poll_id'])) {
+				$poll_id = $instance['poll_id'];
+			} else {
+				$poll_id = 1;
+			}
+			// Widget admin form
+			?>
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('poll_id')); ?>"><?php _e('Select A Poll:', 'smp-simple-poll'); ?></label>
 			<select class="widefat" id="<?php echo esc_attr($this->get_field_id('poll_id')); ?>" name="<?php echo esc_attr($this->get_field_name('poll_id')); ?>">
@@ -81,7 +81,7 @@ class smp_poll_widget extends WP_Widget
 						?>
 			</select>
 		</p>
-		
+
 <?php
 	}
 
