@@ -307,10 +307,10 @@ if (!function_exists('dynamic_poll_style')) {
 				.smp-poll-' . esc_html($poll_id) . ' .smp_survey-item-action-form input[role=vote]{
 					border-color: ' . esc_html($color1) . '!important;
 				}
-				.smp_inner:after {
+				.smp-poll-' . esc_html($poll_id) . ' .smp_inner:after {
 					background: ' . esc_html($bg_color) . '!important;
 				}
-				.smp_inner::before {
+				.smp-poll-' . esc_html($poll_id) . ' .smp_inner::before {
 					background-image: url("' . esc_html($poll_bg) . '");
 				}
 			</style>';
