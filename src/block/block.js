@@ -59,7 +59,7 @@ registerBlockType('cgb/block-smp-poll', {
 	edit: (props) => {
 		if (!props.attributes.posts) {
 			wp.apiFetch({
-				url: wpRestApi.url + 'wp/v2/smp_poll'
+				url: wpRestApi.url + 'wp/v2/smpp_poll'
 			}).then(posts => {
 				props.setAttributes({
 					posts: posts
