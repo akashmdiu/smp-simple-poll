@@ -40,6 +40,8 @@ This plugin is used and tested on PHP version 7.3 and 8.0.13,
 * (New Feature) Add shortcode copy option.
 * Remove poll sidebar widget, keep block widget
 * (Fixed) Frontend poll result.
+* Chnage post type 'smp_poll' to 'smpp_poll'.
+
 
 = 1.1.4 (29-July-2022) =
 * Fixed: Minor issues
