@@ -6,7 +6,7 @@
 
 
 /*
-Plugin Name: Simple Poll OOP
+Plugin Name: Simple Poll
 Plugin Uri: https://github.com/akashmdiu/smp-simple-poll
 Description: The Simple Poll is a voting poll system into your post, pages and everywhere in website by just a shortcode. Add poll system to your post by placing shortcode.
 Author: Akash Mia
