@@ -7,7 +7,7 @@
 
 		let getUniqIDs = [];
 		if (localStorage.getItem(`set_uniq_ids`) === null) {
-			localStorage.setItem(`set_uniq_ids`, ' , ');
+			localStorage.setItem(`set_uniq_ids`, ',');
 		}
 		jQuery('.smpp_option-name.live').on('click', function () {
 			let getUniqID = jQuery(this).siblings(".smpp_survey-item-id").val();
@@ -24,6 +24,8 @@
 				jQuery(`.smpp_survey-item-action-disabled input[value=${value}]`).siblings('[type=button]').addClass('smpp_fill-option');
 			}
 		});
+
+		console.log(localStorage.getItem('set_uniq_ids'));
 
 		jQuery('.smpp_survey-item').each(function () {
 			var smpp_item = jQuery(this);
@@ -51,20 +53,19 @@
 					var smpp_json = jQuery.parseJSON(response);
 					console.log(response);
 
-					let vote_percentage = ((100 * smpp_json.total_opt_vote_count) / smpp_json.total_vote_count).toFixed(2);
-
 					jQuery(smpp_item).parent().find('.smpp_survey-item').each(function () {
 						jQuery(this).find('.smpp_survey-vote-button').addClass('smpp_scale_hide');
 					});
 
 
 					if (smpp_item.hasClass('public') || smpp_item.hasClass('public_after_vote')) {
-						jQuery('.temp-hide').removeClass('temp-hide');
+						jQuery('.activated .temp-hide').removeClass('temp-hide');
 
 						console.log(smpp_json.total_vote_percentage.length);
 						for (let i = 0; i <= smpp_json.total_vote_percentage.length; i++) {
-							jQuery(`.smpp-item-${i} .smpp_survey-progress-fg`).attr('style', 'width:' + smpp_json.total_vote_percentage[i] + `%`);
-							jQuery(`.smpp-item-${i} .smpp_survey-progress-label`).text(smpp_json.total_vote_percentage[i] + '%');
+							jQuery(`.activated .public_after_vote.smpp-item-${i} .smpp_survey-progress-fg, .activated .public.smpp-item-${i} .smpp_survey-progress-fg`).attr('style', 'width:' + smpp_json.total_vote_percentage[i] + `%`);
+
+							jQuery(`.activated .public.smpp-item-${i} .smpp_survey-progress-label, .activated .public_after_vote.smpp-item-${i} .smpp_survey-progress-label`).text(smpp_json.total_vote_percentage[i] + '%');
 						}
 
 						jQuery(`.activated .smpp_survey-total-vote span span`).text(smpp_json.total_vote_count);
