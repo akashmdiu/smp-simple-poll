@@ -11,7 +11,7 @@ Plugin Uri: https://github.com/akashmdiu/smp-simple-poll
 Description: The Simple Poll is a voting poll system into your post, pages and everywhere in website by just a shortcode. Add poll system to your post by placing shortcode.
 Author: Akash Mia
 Author URI: https://bprogrammer.net
-Version: 2.0.1
+Version: 2.0.2
 Tags: simple poll, voting poll, survay, poll by shortcode, create poll.
 Text Domain: smp-simple-poll
 Domain Path: /languages/

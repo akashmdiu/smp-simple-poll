@@ -25,6 +25,18 @@ final class Init
         ];
     }
 
+    /**
+     * Initialize the class
+     * @param class $class, class from the service array
+     * @return class instance
+     */
+
+    public static function instantiate($class)
+    {
+        $service = new $class();
+
+        return $service;
+    }
 
     /**
      * Loop through the classes, intialize theme
@@ -40,18 +52,5 @@ final class Init
                 $service->register();
             }
         }
-    }
-
-    /**
-     * Initialize the class
-     * @param class $class, class from the service array
-     * @return class instance
-     */
-
-    public static function instantiate($class)
-    {
-        $service = new $class();
-
-        return $service;
     }
 }
