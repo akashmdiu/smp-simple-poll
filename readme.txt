@@ -35,7 +35,7 @@ This plugin is used and tested on PHP version 7.3 and 8.0.13,
 == Change Log ==
 
 = 2.0.2 (17-August-2022) =
-*(Removeed)  remove some unecessary files
+*(Removed)  remove some unnecessary files
 
 = 2.0.1 (8-August-2022) =
 *(Fixed)  Wrong result when Multiple poll in the same page
