@@ -5,9 +5,14 @@
 			jQuery(".smpp_survey-item-action-disabled .smpp_disabled-button").removeClass("smpp_survey-vote-button");
 		}
 
-		let getUniqIDs = [];
+		let getUniqIDs;
+
 		if (localStorage.getItem(`set_uniq_ids`) === null) {
+			getUniqIDs = [];
 			localStorage.setItem(`set_uniq_ids`, ',');
+		}
+		else {
+			getUniqIDs = localStorage.getItem(`set_uniq_ids`).split(',');
 		}
 		jQuery('.smpp_option-name.live').on('click', function () {
 			let getUniqID = jQuery(this).siblings(".smpp_survey-item-id").val();
